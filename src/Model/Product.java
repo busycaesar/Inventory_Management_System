@@ -1,6 +1,7 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Product {
 	
@@ -28,32 +29,25 @@ public class Product {
 		this.setAssociatedParts(_associatedParts);
 	}
 
+	// Getters and Setters.
+	
+	public int getId() { 
+		return this.id; 
+	}
+
 	private void setId(int _id) {
 		this.id = _id;
 	}
 
-	private void setName(String _name) {
-		this.name = _name;
-	}
-
-	// Get the product id.
-	public int getId() { 
-		return this.id; 
-	}
 	
-	// Get the product name.
-	public String getName() {
-		return this.name; 
-	}
-
 	public int getStock() {
 		return this.stock;
 	}
-
+	
 	public void setStock(int stock) {
 		this.stock = stock;
 	}
-
+	
 	public int getMinRequire() {
 		return this.minRequire;
 	}
@@ -68,6 +62,14 @@ public class Product {
 
 	public void setMaxCapacity(int maxCapacity) {
 		this.maxCapacity = maxCapacity;
+	}
+	
+	private void setName(String _name) {
+		this.name = _name;
+	}
+	
+	public String getName() {
+		return this.name; 
 	}
 
 	public double getPrice() {
@@ -84,6 +86,25 @@ public class Product {
 
 	public void setAssociatedParts(ArrayList<Part> associatedParts) {
 		this.associatedParts = associatedParts;
+	}
+	
+	// Query functions.
+	
+	// Add a new associated part into the list.
+	public void addAssociatedParts(Part newAssociatedPart) {
+		this.associatedParts.add(newAssociatedPart);
+	}
+	
+	// Delete an associated part from the list.
+	public void deleteAssociatedParts(Part associatedPart) {
+		Iterator<Part> iterator = this.associatedParts.iterator();
+		while(iterator.hasNext()) {
+			Part part = iterator.next();
+			if(part.getId() == associatedPart.getId()) {
+				iterator.remove();
+				break;
+			}
+		}
 	}
 	
 }
