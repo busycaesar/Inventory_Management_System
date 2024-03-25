@@ -2,7 +2,7 @@ package Model;
 
 import java.util.ArrayList;
 
-public class Part {
+public abstract class Part {
 
 	private int    id, 
 		   		   // The number of parts in stock.
@@ -14,28 +14,14 @@ public class Part {
 	private String name;
 	private double price;
 	
-	// Load the product object from the database using id.
-	public Part(int _id) {
-		this.loadPart(_id);
-	}
-	
-	// Create a new product object.
-	public Part(int _stock, int _minRequire, int _maxCapacity, String _name, double _price, ArrayList<Part> _associatedParts) {
+	// Create a new part object.
+	public Part(int _id, int _stock, int _minRequire, int _maxCapacity, String _name, double _price) {
+		this.id 		 = _id;
 		this.stock 		 = _stock;
 		this.minRequire  = _minRequire;
 		this.maxCapacity = _maxCapacity;
 		this.name 		 = _name;
 		this.price 		 = _price;
-		this.id 		 = this.generatePartId();
-	}
-	
-	private void loadPart(int id) {
-		// Load the part using id.
-	}
-	
-	// Generate a new unique id.
-	private int generatePartId() {
-		return 0;
 	}
 	
 	// Return the part id.
