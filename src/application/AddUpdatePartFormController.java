@@ -10,16 +10,17 @@ public class AddUpdatePartFormController {
     private BorderPane root;
 	
 	@FXML
-	private void handleUpdatePartButtonClick() {
+	private void handleCancelButtonClick() {
 		try {
 			
 			// Redirect the user to LoginForm page.
-			BorderPane bookRoomPane = FXMLLoader.load(getClass().getResource("AddUpdatePartForm.fxml"));
-			root.setCenter(bookRoomPane);
+			BorderPane mainPane = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
+			root.setCenter(mainPane);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
 		
 	
 }
