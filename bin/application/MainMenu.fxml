@@ -69,12 +69,12 @@
                   <TreeTableColumn prefWidth="113.0" text="Unit Cost" />
                </columns>
             </TreeTableView>
-            <Button layoutX="725.0" layoutY="433.0" mnemonicParsing="false" text="Add">
+            <Button onAction="#handleAddProductButtonClick" layoutX="725.0" layoutY="433.0" mnemonicParsing="false" text="Add">
                <font>
                   <Font size="14.0" />
                </font>
             </Button>
-            <Button layoutX="783.0" layoutY="433.0" mnemonicParsing="false" text="Update">
+            <Button onAction="#handleUpdateProductButtonClick" layoutX="783.0" layoutY="433.0" mnemonicParsing="false" text="Update">
                <font>
                   <Font size="14.0" />
                </font>

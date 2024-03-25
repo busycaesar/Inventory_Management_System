@@ -31,12 +31,12 @@
                   <Font size="20.0" />
                </font>
             </Text>
-            <Button layoutX="802.0" layoutY="433.0" mnemonicParsing="false" text="Add">
+            <Button layoutX="802.0" layoutY="486.0" mnemonicParsing="false" text="Save">
                <font>
                   <Font size="14.0" />
                </font>
             </Button>
-            <Button onAction="#handleCancelButtonClick" layoutX="861.0" layoutY="433.0" mnemonicParsing="false" text="Cancel">
+            <Button layoutX="861.0" layoutY="486.0" mnemonicParsing="false" onAction="#handleCancelButtonClick" text="Cancel">
                <font>
                   <Font size="14.0" />
                </font>

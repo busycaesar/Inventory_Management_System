@@ -8,33 +8,35 @@ public class MainMenuController {
 
     @FXML
     private BorderPane root;
+    private SwitchScreen switchScreen;
+    
+    @FXML
+    public void initialize() {
+        this.switchScreen = new SwitchScreen();
+    }
     
 	@FXML
-	private void handleAddPartButtonClick() {
-		try {
-			
-			// Redirect the user to LoginForm page.
-			BorderPane partFormPane = FXMLLoader.load(getClass().getResource("AddUpdatePartForm.fxml"));
-			root.setCenter(partFormPane);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
+	private void handleAddPartButtonClick() { 
+		System.out.println("Add new part form");
+		this.switchScreen.screen(root, "AddUpdatePartForm.fxml"); 
 	}
 	
 	@FXML
 	private void handleUpdatePartButtonClick() {
-		try {
-			
-			// Redirect the user to LoginForm page.
-			BorderPane partFormPane = FXMLLoader.load(getClass().getResource("AddUpdatePartForm.fxml"));
-			root.setCenter(partFormPane);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
+		System.out.println("Update new part form");
+		this.switchScreen.screen(root, "AddUpdatePartForm.fxml"); 
+	}
+	
+	@FXML
+	private void handleAddProductButtonClick() { 
+		System.out.println("Add new product form");
+		this.switchScreen.screen(root, "AddUpdateProductForm.fxml"); 
+	}
+	
+	@FXML
+	private void handleUpdateProductButtonClick() {
+		System.out.println("Update new product form");
+		this.switchScreen.screen(root, "AddUpdateProductForm.fxml"); 
 	}
 	
 }
