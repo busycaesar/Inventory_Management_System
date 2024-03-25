@@ -16,36 +16,74 @@ public class Product {
 	// All the parts associated with the product.
 	private ArrayList<Part> associatedParts;
 	
-	// Load the product object from the database using id.
-	public Product(int _id) {
-		this.loadProduct(_id);
-	}
-	
 	// Create a new product object.
-	public Product(int _stock, int _minRequire, int _maxCapacity, String _name, double _price, ArrayList<Part> _associatedParts) {
-		this.stock 			 = _stock;
-		this.minRequire 	 = _minRequire;
-		this.maxCapacity 	 = _maxCapacity;
-		this.name 			 = _name;
-		this.price 			 = _price;
-		this.associatedParts = new ArrayList<>();
-		this.associatedParts = _associatedParts;
-		this.id 			 = this.generateProductId();
+	public Product(int _id, int _stock, int _minRequire, int _maxCapacity, String _name, double _price, ArrayList<Part> _associatedParts) {
+		this.setId(_id);
+		this.setStock(_stock);
+		this.setMinRequire(_minRequire);
+		this.setMaxCapacity(_maxCapacity);
+		this.setName(_name);
+		this.setPrice(_price);
+		this.setAssociatedParts(new ArrayList<>());
+		this.setAssociatedParts(_associatedParts);
 	}
-	
-	private void loadProduct(int id) {
-		// Load the product using id.
+
+	private void setId(int _id) {
+		this.id = _id;
 	}
-	
-	// Generate a new unique id.
-	private int generateProductId() {
-		return 0;
+
+	private void setName(String _name) {
+		this.name = _name;
 	}
-	
+
 	// Get the product id.
-	public int getId() { return this.id; }
+	public int getId() { 
+		return this.id; 
+	}
 	
 	// Get the product name.
-	public String getName() { return this.name; }
+	public String getName() {
+		return this.name; 
+	}
+
+	public int getStock() {
+		return this.stock;
+	}
+
+	public void setStock(int stock) {
+		this.stock = stock;
+	}
+
+	public int getMinRequire() {
+		return this.minRequire;
+	}
+
+	public void setMinRequire(int minRequire) {
+		this.minRequire = minRequire;
+	}
+
+	public int getMaxCapacity() {
+		return this.maxCapacity;
+	}
+
+	public void setMaxCapacity(int maxCapacity) {
+		this.maxCapacity = maxCapacity;
+	}
+
+	public double getPrice() {
+		return this.price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+	public ArrayList<Part> getAssociatedParts() {
+		return this.associatedParts;
+	}
+
+	public void setAssociatedParts(ArrayList<Part> associatedParts) {
+		this.associatedParts = associatedParts;
+	}
 	
 }
