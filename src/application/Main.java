@@ -14,7 +14,7 @@ public class Main extends Application {
 			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
 			
 			// Create a scene, load the BorderPane, and set the application dimensions.
-			Scene scene = new Scene(root,860,580);
+			Scene scene = new Scene(root,1000,650);
 			
 			// Set the scene on the stage.
 			primaryStage.setScene(scene);

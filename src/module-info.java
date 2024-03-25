@@ -1,4 +1,4 @@
-module Inventory_Management_System {
+module inventory_management_system {
 	requires javafx.controls;
 	requires javafx.fxml;
 	
