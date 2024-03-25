@@ -9,9 +9,7 @@ public class Inventory {
 	private ArrayList<Part>    allParts;
 	
 	public Inventory(ArrayList<Product> _allProducts, ArrayList<Part> _allParts) {
-		this.allProducts = new ArrayList<>();
 		this.allProducts = _allProducts;
-		this.allParts 	 = new ArrayList<>();
 		this.allParts 	 = _allParts;
 	}
 	
@@ -84,16 +82,20 @@ public class Inventory {
 		}
 	}
 	 
-	// Update an existing part.
-	public void deletePart(Part _part) {
+	// Delete an existing part if it is not associated with any Product.
+	// Returns true if the part is delete successfully; otherwise false.
+	public boolean deletePart(Part _part) {
+		
+		if(_part.isAssociated()) return false;
 		Iterator<Part> iterator = this.allParts.iterator();
 		while(iterator.hasNext()) {
 			Part part = iterator.next();
 			if(part.getId() == _part.getId()) {
 				iterator.remove();
-				break;
+				return true;
 			}
 		}
+		return false;
 	}
 	
 	// Get all products.
@@ -104,6 +106,14 @@ public class Inventory {
 	// Get all parts.
 	public ArrayList<Part> getAllParts(){
 		return this.allParts;
+	}
+	
+	public int getProductId() {
+		return this.allProducts.size() + 1;
+	}
+	
+	public int getPartId() {
+		return this.allParts.size() + 1;
 	}
 
 }

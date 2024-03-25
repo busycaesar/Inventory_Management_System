@@ -2,15 +2,16 @@ package Model;
 
 public abstract class Part {
 
-	private int    id, 
-		   		   // The number of parts in stock.
-		   		   stock, 
-		   		   // The minimum number of parts required.
-		   		   minRequire, 
-		   		   // The maximum number of parts that can be stored.
-		   		   maxCapacity;
-	private String name;
-	private double price;
+	private int     id, 
+		   		    // The number of parts in stock.
+		   		    stock, 
+		   		    // The minimum number of parts required.
+		   		    minRequire, 
+		   		    // The maximum number of parts that can be stored.
+		   		    maxCapacity;
+	private String  name;
+	private double 	price;
+	private boolean isAssociated;
 	
 	// Create a new part object.
 	public Part(int _id, int _stock, int _minRequire, int _maxCapacity, String _name, double _price) {
@@ -70,6 +71,14 @@ public abstract class Part {
 
 	public void setPrice(double price) {
 		this.price = price;
+	}
+
+	public boolean isAssociated() {
+		return this.isAssociated;
+	}
+
+	public void setAssociated(boolean isAssociated) {
+		this.isAssociated = isAssociated;
 	}
 	
 }

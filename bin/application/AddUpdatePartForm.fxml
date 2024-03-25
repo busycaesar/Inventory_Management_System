@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
@@ -31,7 +32,7 @@
                   <Font size="20.0" />
                </font>
             </Text>
-            <Button layoutX="802.0" layoutY="486.0" mnemonicParsing="false" text="Save">
+            <Button onAction="#handleSaveButtonClick" layoutX="802.0" layoutY="486.0" mnemonicParsing="false" text="Save">
                <font>
                   <Font size="14.0" />
                </font>
@@ -41,52 +42,62 @@
                   <Font size="14.0" />
                </font>
             </Button>
-                  <RadioButton layoutX="378.0" layoutY="93.0" mnemonicParsing="false" text="In-house">
+                  <RadioButton fx:id="inHouseRadioButton" layoutX="384.0" layoutY="93.0" mnemonicParsing="false" text="In-house*">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </RadioButton>
-                  <RadioButton layoutX="525.0" layoutY="93.0" mnemonicParsing="false" text="Outsourced">
+                  <RadioButton fx:id="outsourcedRadioButton" layoutX="531.0" layoutY="93.0" mnemonicParsing="false" text="Outsourced*">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </RadioButton>
-                  <Label layoutX="376.0" layoutY="151.0" text="Name">
+                  <Label layoutX="395.0" layoutY="151.0" text="Name*">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <TextField layoutX="476.0" layoutY="147.0" />
-                  <Label layoutX="376.0" layoutY="186.0" text="Units Available">
+                  <TextField fx:id="name" layoutX="506.0" layoutY="147.0" />
+                  <Label layoutX="395.0" layoutY="186.0" text="Units Available*">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <TextField layoutX="476.0" layoutY="182.0" />
-                  <Label layoutX="376.0" layoutY="222.0" text="Unit Cost">
+                  <TextField fx:id="unitsAvailable" layoutX="506.0" layoutY="182.0" />
+                  <Label layoutX="395.0" layoutY="222.0" text="Unit Cost*">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <TextField layoutX="476.0" layoutY="218.0" />
-                  <Label layoutX="376.0" layoutY="257.0" text="Max Allowed">
+                  <TextField fx:id="unitCost" layoutX="506.0" layoutY="218.0" />
+                  <Label layoutX="395.0" layoutY="257.0" text="Max Allowed*">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <TextField layoutX="476.0" layoutY="253.0" />
-                  <Label layoutX="376.0" layoutY="292.0" text="Min Require">
+                  <TextField fx:id="maxAllowed" layoutX="506.0" layoutY="253.0" />
+                  <Label layoutX="395.0" layoutY="292.0" text="Min Require*">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <TextField layoutX="476.0" layoutY="288.0" />
-                  <Label layoutX="376.0" layoutY="327.0" text="Machine Id">
+                  <TextField fx:id="minRequire" layoutX="506.0" layoutY="288.0" />
+                  <Label fx:id="machineIdLabel" layoutX="395.0" layoutY="327.0">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <TextField layoutX="476.0" layoutY="323.0" />
+                  <TextField fx:id="manufactureInformation" layoutX="506.0" layoutY="323.0" />
+                  <Text fx:id="warning" layoutX="146.0" layoutY="387.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="721.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="requireFieldsWarning" layoutX="80.0" layoutY="128.0" strokeType="OUTSIDE" strokeWidth="0.0" text="All the fields marked with (*) are required." wrappingWidth="178.8740234375">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
          </children>
       </Pane>
    </center>

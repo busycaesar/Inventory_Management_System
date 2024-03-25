@@ -1,7 +1,8 @@
 package application;
 
+import Controller.PartController;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
+import javafx.scene.control.TreeTableView;
 import javafx.scene.layout.BorderPane;
 
 public class MainMenuController {
@@ -9,6 +10,8 @@ public class MainMenuController {
     @FXML
     private BorderPane root;
     private SwitchScreen switchScreen;
+    @FXML
+    private TreeTableView<PartController> partsTable;
     
     @FXML
     public void initialize() {
