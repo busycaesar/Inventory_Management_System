@@ -96,6 +96,11 @@ public class AddUpdatePartFormController {
 				_minRequire = Integer.parseInt(_minRequireInput);
 			double _unitCost = Double.parseDouble(_unitCostInput);
 			
+			if(_minRequire > _maxAllowed) {
+				this.warning.setText("Minimum require cannot be more than maximum allowed.");
+				return;
+			}
+			
 			// Based on the manufacturing, pass the part information to inventory controller.
 			if(this.inHouseRadioButton.isSelected()) {
 				int _machineId = Integer.parseInt(_manufactureInformationInput);
@@ -104,11 +109,10 @@ public class AddUpdatePartFormController {
 			else this.inventoryController.saveOutsourcePart(_name, _unitsAvailable, _unitCost, _maxAllowed, _minRequire, _manufactureInformationInput);
 			
 			this.setDefaults();
-			this.warning.setText(this.inventoryController.temp()+" parts");
 			
 		} catch (NumberFormatException e) {
+			System.out.println("Invalid integer format");
 			this.warning.setText("Please check the format of input data.");
-		    System.out.println("Invalid integer format");
 		}
 		
 	}

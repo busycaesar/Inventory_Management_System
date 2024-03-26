@@ -32,7 +32,7 @@
                   <Font size="20.0" />
                </font>
             </Text>
-            <Button layoutX="802.0" layoutY="486.0" mnemonicParsing="false" text="Save">
+            <Button layoutX="802.0" layoutY="486.0" mnemonicParsing="false" onAction="#handleSaveButtonClick" text="Save">
                <font>
                   <Font size="14.0" />
                </font>
@@ -47,31 +47,31 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <TextField layoutX="180.0" layoutY="144.0" />
+                  <TextField fx:id="name" layoutX="180.0" layoutY="144.0" />
                   <Label layoutX="80.0" layoutY="183.0" text="Units Available">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <TextField layoutX="180.0" layoutY="179.0" />
+                  <TextField fx:id="unitsAvailable" layoutX="180.0" layoutY="179.0" />
                   <Label layoutX="80.0" layoutY="219.0" text="Unit Cost">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <TextField layoutX="180.0" layoutY="215.0" />
+                  <TextField fx:id="unitCost" layoutX="180.0" layoutY="215.0" />
                   <Label layoutX="80.0" layoutY="254.0" text="Max Allowed">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <TextField layoutX="180.0" layoutY="250.0" />
+                  <TextField fx:id="maxAllowed" layoutX="180.0" layoutY="250.0" />
                   <Label layoutX="80.0" layoutY="289.0" text="Min Require">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <TextField layoutX="180.0" layoutY="285.0" />
+                  <TextField fx:id="minRequire" layoutX="180.0" layoutY="285.0" />
                   <TreeTableView layoutX="567.0" layoutY="77.0" prefHeight="152.0" prefWidth="353.0">
                     <columns>
                       <TreeTableColumn prefWidth="75.0" text="Id" />
@@ -99,6 +99,21 @@
                         <Font size="14.0" />
                      </font>
                   </Button>
+                  <Label>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Text fx:id="warning" fill="RED" layoutX="80.0" layoutY="346.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="457.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="requireFieldsWarning" layoutX="200.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="All the fields marked with (*) are required.">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
          </children>
       </Pane>
    </center>

@@ -14,10 +14,6 @@ public class InventoryController {
 		inventory = new Inventory(allProducts, allParts);
 	}
 	
-	public int temp() {
-		return this.inventory.getPartId();
-	}
-	
 	public void saveInHousePart(String name, int unitsAvailable, double unitCost, int maxAllowed, int minRequire, int machineId) {
 		
 		// Create a part object.
