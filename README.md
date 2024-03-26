@@ -2,11 +2,11 @@
 
 ## Description
 
-This is an Inventory Management System
+This is an Inventory Management System. It can hold the list of Products, its total units available, unit cost, minimum units require as well as maximum units require in the inventory and their associated parts with the same properties as product. Parts can be independent of product.
 
 ## Tech Stack
 
-<img src="https://skillicons.dev/icons?i=java" />
+<img src="https://skillicons.dev/icons?i=java,eclipse" />
 
 ## How it looks
 
@@ -20,4 +20,11 @@ This is an Inventory Management System
 ![image](https://github.com/busycaesar/Inventory_Management_System/assets/97539345/43e51dc8-f725-4442-8c2e-c38ed1d7b8c0)
 
 ## Features
+
+Add/Remove new products and parts.
+Associate part/s with a product.
+Add/Remove an associated part with the product.
+
 ## How to run the project
+
+Clone the product and run the main file using any code editor.
