@@ -24,7 +24,6 @@ public class InventoryController {
 		
 	}
 	
-	//int _id, int _stock, int _minRequire, int _maxCapacity, String _name, double _price, String _companyName
 	public void saveOutsourcePart(String name, int unitsAvailable, double unitCost, int maxAllowed, int minRequire, String companyName) {
 		
 		// Create a part object.
@@ -32,6 +31,20 @@ public class InventoryController {
 		
 		// Store the object into the inventory.
 		this.inventory.addPart(part);
+		
+	}
+	
+	public void saveProduct(int unitsAvailable, int minRequire, int maxAllowed, String name, double price, ArrayList<PartController> associatedParts) {
+		
+		ArrayList<Part> _associatedParts = new ArrayList<>();
+		
+		for(PartController partController: associatedParts) {
+			_associatedParts.add(partController.getPart());
+		}
+		
+		Product product = new Product(this.inventory.getProductId(), unitsAvailable, minRequire, maxAllowed, name, price, _associatedParts);
+		
+		this.inventory.addProduct(product);
 		
 	}
 	
@@ -45,7 +58,6 @@ public class InventoryController {
 		}
 		
 		return parts;
-	
 	}
 	
 }

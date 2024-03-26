@@ -1,5 +1,9 @@
 package application;
 
+import java.util.ArrayList;
+
+import Controller.InventoryController;
+import Controller.PartController;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -15,11 +19,13 @@ public class AddUpdateProductFormController {
     private TextField name, unitsAvailable, unitCost, maxAllowed, minRequire;
     @FXML
     private Text requireFieldsWarning, warning;
+    private InventoryController inventoryController;
     
     @FXML
     public void initialize() {
         this.switchScreen = new SwitchScreen();
         this.setDefaults();
+        inventoryController = new InventoryController();
     }
     
     public void setDefaults() {
@@ -68,6 +74,10 @@ public class AddUpdateProductFormController {
 				this.warning.setText("Minimum require cannot be more than maximum allowed.");
 				return;
 			}
+			
+			ArrayList<PartController> associatedParts = new ArrayList<>();
+			
+			this.inventoryController.saveProduct(_unitsAvailable, _minRequire, _maxAllowed, _name, _unitCost, associatedParts);
 			
 			this.setDefaults();
 			

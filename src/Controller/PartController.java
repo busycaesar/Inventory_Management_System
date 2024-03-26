@@ -10,4 +10,8 @@ public class PartController {
 		this.part = _part;
 	}
 	
+	public Part getPart() {
+		return this.part;
+	}
+	
 }
