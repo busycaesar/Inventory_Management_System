@@ -23,7 +23,6 @@ public class AddUpdatePartFormController {
     private TextField name, unitsAvailable, unitCost, maxAllowed, minRequire, manufactureInformation; 
     @FXML
     private ToggleGroup partManufacture;
-    private InventoryController inventoryController;
     
     @FXML
     public void initialize() {
@@ -32,7 +31,6 @@ public class AddUpdatePartFormController {
         this.inHouseRadioButton.setToggleGroup(partManufacture);
         this.outsourcedRadioButton.setToggleGroup(partManufacture);
         this.setDefaults();
-        inventoryController = new InventoryController();
     }
     
     private void setDefaults() {
@@ -40,6 +38,11 @@ public class AddUpdatePartFormController {
     	this.addEventListener();
     	this.inHouseRadioButton.setSelected(true);
     	this.outsourcedRadioButton.setSelected(false);
+    	this.name.setText("");
+    	this.unitsAvailable.setText("");
+    	this.maxAllowed.setText("");
+    	this.minRequire.setText("");
+    	this.manufactureInformation.setText("");
     }
     
     private void addEventListener() {
@@ -104,11 +107,13 @@ public class AddUpdatePartFormController {
 			// Based on the manufacturing, pass the part information to inventory controller.
 			if(this.inHouseRadioButton.isSelected()) {
 				int _machineId = Integer.parseInt(_manufactureInformationInput);
-				this.inventoryController.saveInHousePart(_name, _unitsAvailable, _unitCost, _maxAllowed, _minRequire, _machineId);
+				InventoryController.saveInHousePart(_name, _unitsAvailable, _unitCost, _maxAllowed, _minRequire, _machineId);
 			}
-			else this.inventoryController.saveOutsourcePart(_name, _unitsAvailable, _unitCost, _maxAllowed, _minRequire, _manufactureInformationInput);
+			else InventoryController.saveOutsourcePart(_name, _unitsAvailable, _unitCost, _maxAllowed, _minRequire, _manufactureInformationInput);
 			
 			this.setDefaults();
+			
+			this.warning.setText("Part stored successfully!");
 			
 		} catch (NumberFormatException e) {
 			System.out.println("Invalid integer format");

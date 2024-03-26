@@ -19,17 +19,19 @@ public class AddUpdateProductFormController {
     private TextField name, unitsAvailable, unitCost, maxAllowed, minRequire;
     @FXML
     private Text requireFieldsWarning, warning;
-    private InventoryController inventoryController;
     
     @FXML
     public void initialize() {
         this.switchScreen = new SwitchScreen();
         this.setDefaults();
-        inventoryController = new InventoryController();
     }
     
     public void setDefaults() {
     	this.requireFieldsWarning.setFill(Color.BLACK);
+    	this.name.setText("");
+    	this.unitsAvailable.setText("");
+    	this.maxAllowed.setText("");
+    	this.minRequire.setText("");
     }
     
 	@FXML
@@ -75,11 +77,13 @@ public class AddUpdateProductFormController {
 				return;
 			}
 			
-			ArrayList<PartController> associatedParts = new ArrayList<>();
+			ArrayList<PartController> associatedParts = InventoryController.getAllParts();
 			
-			this.inventoryController.saveProduct(_unitsAvailable, _minRequire, _maxAllowed, _name, _unitCost, associatedParts);
+			InventoryController.saveProduct(_unitsAvailable, _minRequire, _maxAllowed, _name, _unitCost, associatedParts);
 			
 			this.setDefaults();
+			
+			this.warning.setText("Product stored successfully!");
 			
 		} catch (NumberFormatException e) {
 			System.out.println("Invalid integer format");
