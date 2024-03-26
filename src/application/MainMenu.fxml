@@ -33,12 +33,12 @@
                </font>
             </Text>
             <TreeTableView fx:id="partsTable" layoutX="80.0" layoutY="116.0" prefHeight="296.0" prefWidth="363.0">
-              <columns>
+             <!--  <columns>
                 <TreeTableColumn prefWidth="75.0" text="Id" />
                 <TreeTableColumn prefWidth="75.0" text="Name" />
                   <TreeTableColumn prefWidth="99.0" text="Inventory Level" />
                   <TreeTableColumn prefWidth="113.0" text="Unit Cost" />
-              </columns>
+              </columns> -->
             </TreeTableView>
             <Button onAction="#handleAddPartButtonClick" layoutX="249.0" layoutY="431.0" mnemonicParsing="false" text="Add">
                <font>
@@ -50,7 +50,7 @@
                   <Font size="14.0" />
                </font>
             </Button>
-            <Button layoutX="385.0" layoutY="431.0" mnemonicParsing="false" text="Delete">
+            <Button onAction="#handleDeletePartButtonClick" layoutX="385.0" layoutY="431.0" mnemonicParsing="false" text="Delete">
                <font>
                   <Font size="14.0" />
                </font>
@@ -61,13 +61,13 @@
                   <Font size="20.0" />
                </font>
             </Text>
-            <TreeTableView layoutX="556.0" layoutY="118.0" prefHeight="296.0" prefWidth="363.0">
-               <columns>
+            <TreeTableView fx:id="productsTable" layoutX="556.0" layoutY="118.0" prefHeight="296.0" prefWidth="363.0">
+            <!-- <columns>
                   <TreeTableColumn prefWidth="75.0" text="Id" />
                   <TreeTableColumn prefWidth="75.0" text="Name" />
                   <TreeTableColumn prefWidth="99.0" text="Inventory Level" />
                   <TreeTableColumn prefWidth="113.0" text="Unit Cost" />
-               </columns>
+               </columns> -->   
             </TreeTableView>
             <Button onAction="#handleAddProductButtonClick" layoutX="725.0" layoutY="433.0" mnemonicParsing="false" text="Add">
                <font>
@@ -79,7 +79,7 @@
                   <Font size="14.0" />
                </font>
             </Button>
-            <Button layoutX="861.0" layoutY="433.0" mnemonicParsing="false" text="Delete">
+            <Button onAction="#handleDeleteProductButtonClick" layoutX="861.0" layoutY="433.0" mnemonicParsing="false" text="Delete">
                <font>
                   <Font size="14.0" />
                </font>

@@ -1,6 +1,7 @@
 package application;
 
 import Controller.InventoryController;
+import UtilityFunction.AlertBox;
 import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
@@ -61,6 +62,7 @@ public class AddUpdatePartFormController {
     
 	@FXML
 	private void handleCancelButtonClick() { 
+		if(AlertBox.confirmation("Are you sure you want to cancel the process?"))
 		this.switchScreen.screen(root, "MainMenu.fxml"); 
 	}
 	
@@ -99,6 +101,11 @@ public class AddUpdatePartFormController {
 				_minRequire = Integer.parseInt(_minRequireInput);
 			double _unitCost = Double.parseDouble(_unitCostInput);
 			
+			if(_unitsAvailable < _minRequire || _unitsAvailable > _maxAllowed) {
+				this.warning.setText("Units cannot be less than minimum require or more than maximum allowed.");
+				return;
+			}
+			
 			if(_minRequire > _maxAllowed) {
 				this.warning.setText("Minimum require cannot be more than maximum allowed.");
 				return;
@@ -111,9 +118,7 @@ public class AddUpdatePartFormController {
 			}
 			else InventoryController.saveOutsourcePart(_name, _unitsAvailable, _unitCost, _maxAllowed, _minRequire, _manufactureInformationInput);
 			
-			this.setDefaults();
-			
-			this.warning.setText("Part stored successfully!");
+			this.switchScreen.screen(root, "MainMenu.fxml");
 			
 		} catch (NumberFormatException e) {
 			System.out.println("Invalid integer format");

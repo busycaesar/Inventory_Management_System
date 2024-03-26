@@ -14,4 +14,8 @@ public class PartController {
 		return this.part;
 	}
 	
+	public double getPrice() {
+		return this.part.getPrice()
+	}
+	
 }

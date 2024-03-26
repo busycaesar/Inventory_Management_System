@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import Controller.InventoryController;
 import Controller.PartController;
+import UtilityFunction.AlertBox;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -33,9 +34,10 @@ public class AddUpdateProductFormController {
     	this.maxAllowed.setText("");
     	this.minRequire.setText("");
     }
-    
+
 	@FXML
 	private void handleCancelButtonClick() { 
+		if(AlertBox.confirmation("Are you sure you want to cancel the process?"))
 		this.switchScreen.screen(root, "MainMenu.fxml"); 
 	}
 	
@@ -46,6 +48,14 @@ public class AddUpdateProductFormController {
 			&& !this.unitCost.getText().isEmpty()
 			&& !this.maxAllowed.getText().isEmpty()
 			&& !this.minRequire.getText().isEmpty();
+	}
+	
+	private boolean isValidPrice(ArrayList<PartController> associatedParts, double inputPrice) {
+		double partsPrice = 0;
+		for(PartController part: associatedParts) {
+			partsPrice += part.getPrice();
+		}
+		return inputPrice > partsPrice;
 	}
 	
 	@FXML
@@ -72,18 +82,31 @@ public class AddUpdateProductFormController {
 				_minRequire = Integer.parseInt(_minRequireInput);
 			double _unitCost = Double.parseDouble(_unitCostInput);
 			
+			if(_unitsAvailable < _minRequire || _unitsAvailable > _maxAllowed) {
+				this.warning.setText("Units cannot be less than minimum require or more than maximum allowed.");
+				return;
+			}
+			
 			if(_minRequire > _maxAllowed) {
 				this.warning.setText("Minimum require cannot be more than maximum allowed.");
 				return;
 			}
-			
+						
 			ArrayList<PartController> associatedParts = InventoryController.getAllParts();
+			
+			if(associatedParts.size() <= 0) {
+				this.warning.setText("A product should have atleast one part associated with it.");
+				return;
+			}
+
+			if(!this.isValidPrice(associatedParts, _unitCost)) {
+				this.warning.setText("Price of the product cannot be less than the total price of its associated parts.");
+				return;
+			}
 			
 			InventoryController.saveProduct(_unitsAvailable, _minRequire, _maxAllowed, _name, _unitCost, associatedParts);
 			
-			this.setDefaults();
-			
-			this.warning.setText("Product stored successfully!");
+			this.switchScreen.screen(root, "MainMenu.fxml");
 			
 		} catch (NumberFormatException e) {
 			System.out.println("Invalid integer format");
