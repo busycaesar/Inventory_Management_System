@@ -21,9 +21,9 @@ This is an Inventory Management System. It can hold the list of Products, its to
 
 ## Features
 
-Add/Remove new products and parts.
-Associate part/s with a product.
-Add/Remove an associated part with the product.
+- Add/Remove new products and parts.
+- Associate part/s with a product.
+- Add/Remove an associated part with the product.
 
 ## How to run the project
 
