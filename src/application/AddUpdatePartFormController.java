@@ -11,20 +11,26 @@ import javafx.scene.text.Text;
 public class AddUpdatePartFormController {
 
 	@FXML
-    private BorderPane root;
+    private 	   BorderPane 	  root;
     @FXML
-    private RadioButton inHouseRadioButton,
-    					outsourcedRadioButton;
+    private 	   RadioButton    inHouseRadioButton,
+    							  outsourcedRadioButton;
     @FXML
-    private Label machineIdLabel;
+    private 	   Label 		  machineIdLabel;
     @FXML
-    private Text warning, requireFieldsWarning;
+    private 	   Text 		  warning, 
+    							  requireFieldsWarning;
     @FXML
-    private TextField name, unitsAvailable, unitCost, maxAllowed, minRequire, manufactureInformation; 
+    private 	   TextField 	  name, 
+    							  unitsAvailable, 
+    							  unitCost, 
+    							  maxAllowed, 
+    							  minRequire, 
+    							  manufactureInformation; 
     @FXML
-    private ToggleGroup partManufacture;
+    private 	   ToggleGroup 	  partManufacture;
     @FXML
-    private Text title;
+    private 	   Text			  title;
     @FXML
     private static PartController part;
     
@@ -44,6 +50,37 @@ public class AddUpdatePartFormController {
     	this.title.setText("Add Part");
     	this.setDefaults();
     	
+    }
+    
+    private void setDefaults() {
+    	
+    	this.requireFieldsWarning.setFill(Color.BLACK);
+    	this.addEventListener();
+    	this.inHouseRadioButton.setSelected(true);
+    	this.outsourcedRadioButton.setSelected(false);
+    	this.name.setText("");
+    	this.unitsAvailable.setText("");
+    	this.maxAllowed.setText("");
+    	this.minRequire.setText("");
+    	this.manufactureInformation.setText("");
+    	AddUpdatePartFormController.part = null;
+    	
+    }
+    
+    private void addEventListener() {
+    	
+        this.inHouseRadioButton.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                machineIdLabel.setText("Machine Id*");
+            }
+        });
+
+        this.outsourcedRadioButton.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                machineIdLabel.setText("Company Name*");
+            }
+        });
+        
     }
     
     public static void setPart(PartController _part) {
@@ -75,49 +112,10 @@ public class AddUpdatePartFormController {
     	
     }
     
-    private void setDefaults() {
-    	
-    	this.requireFieldsWarning.setFill(Color.BLACK);
-    	this.addEventListener();
-    	this.inHouseRadioButton.setSelected(true);
-    	this.outsourcedRadioButton.setSelected(false);
-    	this.name.setText("");
-    	this.unitsAvailable.setText("");
-    	this.maxAllowed.setText("");
-    	this.minRequire.setText("");
-    	this.manufactureInformation.setText("");
-    	AddUpdatePartFormController.part = null;
-    	
-    }
-    
-    private void addEventListener() {
-        this.inHouseRadioButton.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue) {
-                machineIdLabel.setText("Machine Id*");
-            }
-        });
-
-        this.outsourcedRadioButton.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue) {
-                machineIdLabel.setText("Company Name*");
-            }
-        });
-    }
-    
 	@FXML
 	private void handleCancelButtonClick() { 
 		if(AlertBox.confirmation("Are you sure you want to cancel the process?"))
 			_FXMLUtil.setScreen(root, "MainMenu.fxml"); 
-	}
-	
-	// Check if all the required form fields are filled or not.
-	private boolean checkFormFields() {
-		return !this.name.getText().isEmpty()
-			&& !this.unitsAvailable.getText().isEmpty()
-			&& !this.unitCost.getText().isEmpty()
-			&& !this.maxAllowed.getText().isEmpty()
-			&& !this.minRequire.getText().isEmpty()
-			&& !this.manufactureInformation.getText().isEmpty();
 	}
 	
 	@FXML
@@ -185,6 +183,18 @@ public class AddUpdatePartFormController {
 			this.warning.setText("Please check the format of input data.");
 		}
 		
+	}
+	
+	// Util Functions.
+	
+	// Check if all the required form fields are filled or not.
+	private boolean checkFormFields() {
+		return !this.name.getText().isEmpty()
+			&& !this.unitsAvailable.getText().isEmpty()
+			&& !this.unitCost.getText().isEmpty()
+			&& !this.maxAllowed.getText().isEmpty()
+			&& !this.minRequire.getText().isEmpty()
+			&& !this.manufactureInformation.getText().isEmpty();
 	}
 	
 }

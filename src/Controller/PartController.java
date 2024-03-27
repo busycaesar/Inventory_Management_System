@@ -62,4 +62,12 @@ public class PartController {
 
 	}
 	
+	public void setAssociated(boolean isAssociated) {
+		this.getPart().setAssociated(isAssociated);
+	}
+	
+	public boolean getAssociated() {
+		return this.getPart().isAssociated();
+	}
+	
 }

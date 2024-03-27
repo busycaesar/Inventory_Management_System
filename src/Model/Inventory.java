@@ -87,7 +87,7 @@ public class Inventory {
 		
 	}
 	
-	// Update an existing product.
+	// Delete an existing product.
 	public void deleteProduct(Product _product) {
 		
 		for(int i = 0; i < this.allProducts.size(); i++) {

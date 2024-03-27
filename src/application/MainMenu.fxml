@@ -76,6 +76,11 @@
                         <Font size="14.0" />
                      </font>
                   </Text>
+                  <Button layoutX="879.0" layoutY="495.0" mnemonicParsing="false" onAction="#handleExitButtonClick" text="Exit">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
          </children>
       </Pane>
    </center>

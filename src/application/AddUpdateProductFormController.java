@@ -6,6 +6,7 @@ import Controller.InventoryController;
 import Controller.PartController;
 import Controller.ProductController;
 import UtilityFunction.AlertBox;
+import UtilityFunction.Table;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -22,19 +23,29 @@ import javafx.scene.text.Text;
 public class AddUpdateProductFormController {
 
 	@FXML
-    private BorderPane root;
+    private 	   BorderPane 				 root;
     @FXML
-    private TextField name, unitsAvailable, unitCost, maxAllowed, minRequire;
+    private 	   TextField 				 name, 
+    								  		 unitsAvailable, 
+    								  		 unitCost, 
+    								  		 maxAllowed, 
+    								  		 minRequire, 
+    								  		 searchPart;
     @FXML
-    private Text requireFieldsWarning, warning, title;
+    private        Text					  	 requireFieldsWarning, 
+    								  		 warning, 
+    								  		 title;
     @FXML
-    private TableView<PartController> nonAssociatedPartsTable, associatedPartsTable;
+    private 	   TableView<PartController> nonAssociatedPartsTable, 
+    										 associatedPartsTable;
     @FXML
-    private static ProductController product;
-    private ArrayList<PartController> nonAssociatedParts, associatedParts;
+    private static ProductController  		 product;
+    private 	   ArrayList<PartController> nonAssociatedParts, 
+    								  		 associatedParts;
     
     @FXML
     public void initialize() {
+    	
         this.setEventListener();
         this.initPartsTables();
         
@@ -44,13 +55,15 @@ public class AddUpdateProductFormController {
         	return;
         }
         
-        this.setDefaults();
         this.title.setText("Add Product");
+        this.setDefaults();
         this.nonAssociatedParts = InventoryController.getAllParts();
         this.associatedParts = new ArrayList<>();
-        this.loadPartTable(nonAssociatedPartsTable, this.nonAssociatedParts);
+        Table.load(nonAssociatedPartsTable, this.nonAssociatedParts);
+        
     }
     
+    // Set default values.
     private void setDefaults() {
     	this.requireFieldsWarning.setFill(Color.BLACK);
     	this.name.setText("");
@@ -60,25 +73,10 @@ public class AddUpdateProductFormController {
     	AddUpdateProductFormController.product = null;
     }
     
-    public static void setProduct(ProductController product) {
-    	AddUpdateProductFormController.product = product;
-    }
-    
-    private void loadProduct(ProductController product) {
-    	this.name.setText(product.getName());
-    	this.unitsAvailable.setText(product.getUnitsAvailable()+"");
-    	this.unitCost.setText(product.getPrice()+"");
-    	this.maxAllowed.setText(product.getMaxAllowed()+"");
-    	this.minRequire.setText(product.getMinRequire()+"");
-    	this.associatedParts = product.getAssociatedParts();
-    	this.nonAssociatedParts = InventoryController.getNonAssociatedParts(product);
-    	this.loadPartTable(associatedPartsTable, this.associatedParts);
-    	this.loadPartTable(nonAssociatedPartsTable, this.nonAssociatedParts);
-    }
-    
+    // Add event listeners.
     private void setEventListener() {
     	
-    /*	this.searchPart.textProperty().addListener((observable, oldValue, newValue) -> {
+    	this.searchPart.textProperty().addListener((observable, oldValue, newValue) -> {
     		
     		ArrayList<PartController> foundParts = null;
     		
@@ -89,16 +87,33 @@ public class AddUpdateProductFormController {
     	        
     	    } catch (NumberFormatException e) {
     	    	
-    	    	if(newValue.isBlank()) this.loadPartsTable(InventoryController.getAllParts());
+    	    	if(newValue.isBlank()) Table.load(this.nonAssociatedPartsTable, InventoryController.getAllParts());
     	    	else foundParts = InventoryController.searchPartByName(newValue);
     	    	
     	    }
     		
-    		if(foundParts != null) this.loadPartsTable(foundParts);
+    		if(foundParts != null) Table.load(this.nonAssociatedPartsTable, foundParts);
     		
-    	});*/
+    	});
     	
     }
+    
+    // Set product to update.
+    public static void setProduct(ProductController product) {
+    	AddUpdateProductFormController.product = product;
+    }
+    
+    // Load product to update.
+    private void loadProduct(ProductController product) {
+    	this.name.setText(product.getName());
+    	this.unitsAvailable.setText(product.getUnitsAvailable()+"");
+    	this.unitCost.setText(product.getPrice()+"");
+    	this.maxAllowed.setText(product.getMaxAllowed()+"");
+    	this.minRequire.setText(product.getMinRequire()+"");
+    	this.associatedParts = product.getAssociatedParts();
+    	this.nonAssociatedParts = InventoryController.getNonAssociatedParts(product);
+    	this.loadBothTables();
+    }    
 
 	@FXML
 	private void handleCancelButtonClick() { 
@@ -106,113 +121,38 @@ public class AddUpdateProductFormController {
 			_FXMLUtil.setScreen(root, "MainMenu.fxml"); 
 	}
 	
-	private void initPartsTables() {
-	
-		this.initPartsTable(associatedPartsTable);
-		this.initPartsTable(nonAssociatedPartsTable);
-		
-	}
-	
-	private void initPartsTable(TableView<PartController> table) {
-	
-		table.setEditable(true);
-
-		TableColumn<PartController, Integer> idColumn = new TableColumn<>("Part Id");
-		idColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getId()).asObject());
-
-		TableColumn<PartController, String> nameColumn = new TableColumn<>("Part Name");
-		nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
-
-		TableColumn<PartController, Integer> inventoryColumn = new TableColumn<>("Units Available");
-		inventoryColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getUnitsAvailable()).asObject());
-
-		TableColumn<PartController, Double> priceColumn = new TableColumn<>("Unit Cost");
-		priceColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getPrice()).asObject());
-
-		table.getColumns().addAll(idColumn, nameColumn, inventoryColumn, priceColumn);
-		
-	}
-	
-	private void loadPartTable(TableView<PartController> table, ArrayList<PartController> parts) {
-
-		ObservableList<PartController> allParts = FXCollections.observableArrayList(parts);
-		table.setItems(allParts);
-		
-	}
-	
-    private Object getSelectedObject(TableView<?> table) {
-    	
-    	return table.getSelectionModel().getSelectedItem();
-    	
-    }
-	
 	@FXML
 	private void handleAddButtonClick() {
 		
-		PartController selectedPart = (PartController)this.getSelectedObject(this.nonAssociatedPartsTable);
+		PartController selectedPart = (PartController) Table.getSelected(this.nonAssociatedPartsTable);
 		
 		if(selectedPart == null) {
 			this.warning.setText("Please select a part to add.");
 			return;
 		}
+
+		this.injectRow(selectedPart, this.nonAssociatedParts, this.associatedParts);
 		
-		this.associatedParts.add(selectedPart);
-		
-		this.loadPartTable(associatedPartsTable, associatedParts);
-		
-		for(int i = 0; i < this.nonAssociatedParts.size(); i++) {
-			if(this.nonAssociatedParts.get(i).getId() == selectedPart.getId()) {
-				this.nonAssociatedParts.remove(i);
-				break;
-			}
-		}
-		
-		this.loadPartTable(nonAssociatedPartsTable, nonAssociatedParts);
+		this.loadBothTables();
 		
 	}
 	
 	@FXML
 	private void handleRemoveButtonClick() {
 		
-		PartController selectedPart = (PartController)this.getSelectedObject(this.associatedPartsTable);
+		PartController selectedPart = (PartController) Table.getSelected(this.associatedPartsTable);
 		
 		if(selectedPart == null) {
 			this.warning.setText("Please select a part to remove.");
 			return;
 		}
 		
-		this.nonAssociatedParts.add(selectedPart);
+		this.injectRow(selectedPart, this.associatedParts, this.nonAssociatedParts);
 		
-		this.loadPartTable(this.nonAssociatedPartsTable, this.nonAssociatedParts);
-		
-		for(int i = 0; i < this.associatedParts.size(); i++) {
-			if(this.associatedParts.get(i).getId() == selectedPart.getId()) {
-				this.associatedParts.remove(i);
-				break;
-			}
-		}
-		
-		this.loadPartTable(this.associatedPartsTable, this.associatedParts);
+		this.loadBothTables();
 		
 	}
-	
-	// Check if all the required form fields are filled or not.
-	private boolean checkFormFields() {
-		return !this.name.getText().isEmpty()
-			&& !this.unitsAvailable.getText().isEmpty()
-			&& !this.unitCost.getText().isEmpty()
-			&& !this.maxAllowed.getText().isEmpty()
-			&& !this.minRequire.getText().isEmpty();
-	}
-	
-	private boolean isValidPrice(ArrayList<PartController> associatedParts, double inputPrice) {
-		double partsPrice = 0;
-		for(PartController part: associatedParts) {
-			partsPrice += part.getPrice();
-		}
-		return inputPrice > partsPrice;
-	}
-	
+
 	@FXML
 	private void handleSaveButtonClick() {
 		
@@ -276,6 +216,50 @@ public class AddUpdateProductFormController {
 			this.warning.setText("Please check the format of input data.");
 		}
 		
+	}
+	
+    // Util Functions
+    private void loadBothTables() {
+    	Table.load(associatedPartsTable, this.associatedParts);
+    	Table.load(nonAssociatedPartsTable, this.nonAssociatedParts);
+    }
+    
+	private void initPartsTables() {
+		
+		Table.initPartsColumns(associatedPartsTable);
+		Table.initPartsColumns(nonAssociatedPartsTable);
+		
+	}
+	
+    public void injectRow(PartController part, ArrayList<PartController> from, ArrayList<PartController> to) {
+    	
+		to.add(part);
+		
+		for(int i = 0; i < from.size(); i++) {
+			if(from.get(i).getId() == part.getId()) {
+				from.remove(i);
+				break;
+			}
+		}
+
+    }
+    
+	// Check if all the required form fields are filled or not.
+	private boolean checkFormFields() {
+		return !this.name.getText().isEmpty()
+			&& !this.unitsAvailable.getText().isEmpty()
+			&& !this.unitCost.getText().isEmpty()
+			&& !this.maxAllowed.getText().isEmpty()
+			&& !this.minRequire.getText().isEmpty();
+	}
+	
+	// Make sure the price of the product is 
+	private boolean isValidPrice(ArrayList<PartController> associatedParts, double inputPrice) {
+		double partsPrice = 0;
+		for(PartController part: associatedParts) {
+			partsPrice += part.getPrice();
+		}
+		return inputPrice > partsPrice;
 	}
 	
 }

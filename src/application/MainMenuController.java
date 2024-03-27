@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import Controller.*;
 import UtilityFunction.AlertBox;
+import UtilityFunction.Table;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -20,32 +22,41 @@ import javafx.scene.text.Text;
 public class MainMenuController {
 
     @FXML
-    private BorderPane root;
+    private BorderPane 				  	 root;
     @FXML
-    private TableView<PartController> partsTable;
+    private TableView<PartController> 	 partsTable;
     @FXML
     private TableView<ProductController> productsTable;
     @FXML
-    private Text warning;
+    private Text 						 warning;
     @FXML
-    private TextField searchPart, searchProduct;
+    private TextField 					 searchPart,
+    									 searchProduct;
     
     @FXML
     public void initialize() {
-        this.initPartsTableColumns();
-        this.initProductsTableColumns();
-        this.loadPartsTable(InventoryController.getAllParts());
-        this.loadProductsTable(InventoryController.getAllProducts());
+    	
+    	// Init columns for both parts and product table.
+    	Table.initPartsColumns(this.partsTable);
+    	Table.initProductsColumns(this.productsTable);
+        
+        // Load both the table with all the data.
+        Table.load(this.partsTable, InventoryController.getAllParts());
+        Table.load(this.productsTable, InventoryController.getAllProducts());
+        
         this.setDefaults();
+        this.setEventListeners();
     }
     
+    // Set all properties to default.
     private void setDefaults() {
     	this.warning.setText("");
     	this.warning.setFill(Color.BLACK);
-    	this.setEventListeners();
     }
     
+    // Set event listeners for searching part/product with id/name.
     private void setEventListeners() {
+    	
     	this.searchPart.textProperty().addListener((observable, oldValue, newValue) -> {
     		
     		ArrayList<PartController> foundParts = null;
@@ -57,12 +68,12 @@ public class MainMenuController {
     	        
     	    } catch (NumberFormatException e) {
     	    	
-    	    	if(newValue.isBlank()) this.loadPartsTable(InventoryController.getAllParts());
+    	    	if(newValue.isBlank()) Table.load(this.partsTable, InventoryController.getAllParts());
     	    	else foundParts = InventoryController.searchPartByName(newValue);
     	    	
     	    }
     		
-    		if(foundParts != null) this.loadPartsTable(foundParts);
+    		if(foundParts != null) Table.load(this.partsTable, foundParts);
     		
     	});
     	
@@ -77,19 +88,14 @@ public class MainMenuController {
     	        
     	    } catch (NumberFormatException e) {
     	    	
-    	    	if(newValue.isBlank()) this.loadProductsTable(InventoryController.getAllProducts());
+    	    	if(newValue.isBlank()) Table.load(this.productsTable, InventoryController.getAllProducts());
     	    	else foundProducts = InventoryController.searchProductByName(newValue);
     	    	
     	    }
     		
-    		if(foundProducts != null) this.loadProductsTable(foundProducts);
+    		if(foundProducts != null) Table.load(this.productsTable, foundProducts);
     		
     	});
-    }
-    
-    private Object getSelectedObject(TableView<?> table) {
-    	
-    	return table.getSelectionModel().getSelectedItem();
     	
     }
     
@@ -99,11 +105,13 @@ public class MainMenuController {
 		_FXMLUtil.setScreen(root, "AddUpdatePartForm.fxml"); 
 	}
 	
+	// Update the selected part.
 	@FXML
 	private void handleUpdatePartButtonClick() {
 		
-		PartController selectedPart = (PartController)this.getSelectedObject(this.partsTable);
+		PartController selectedPart = (PartController)Table.getSelected(this.partsTable);
 		
+		// Make sure there is a selected part.
 		if(selectedPart == null) {
 			this.warning.setFill(Color.RED);
 			this.warning.setText("Please select a part to update.");
@@ -112,33 +120,44 @@ public class MainMenuController {
 		
 		System.out.println("Update new part form");
 		
+		// Load the selected part in the form view.
 		AddUpdatePartFormController.setPart(selectedPart);
 		_FXMLUtil.setScreen(root, "AddUpdatePartForm.fxml"); 			
 
 	}
 	
+	// Delete selected part.
 	@FXML
 	private void handleDeletePartButtonClick() {
 		
-		PartController selectedPart = (PartController)this.getSelectedObject(this.partsTable);
+		PartController selectedPart = (PartController)Table.getSelected(this.partsTable);
 		
+		// Make sure there is a part selected.
 		if(selectedPart == null) {
 			this.warning.setFill(Color.RED);
 			this.warning.setText("Please select a part to delete.");
 			return;
 		}
 
+		// Confirm the intension with the user.
 		if(!AlertBox.confirmation("Are you sure you want to delete this part?")) return;
 		
+		// Make sure the part is not associated with any product.
 		if(!InventoryController.deletePart(selectedPart)) {
 			this.warning.setFill(Color.RED);
+			// Inform the user.
 			this.warning.setText("Part cannot be deleted. Since it is associated with a product.");
 			return;
 		}
 		
-		this.warning.setText("Part deleted successfully!");
 		this.warning.setFill(Color.GREEN);
-		this.loadPartsTable(InventoryController.getAllParts());
+		// Inform the user.
+		this.warning.setText("Part deleted successfully!");
+
+		// Reload the table.
+		Table.load(this.partsTable, InventoryController.getAllParts());
+		
+		this.setDefaults();
 		
 	}
 	
@@ -148,11 +167,14 @@ public class MainMenuController {
 		_FXMLUtil.setScreen(root, "AddUpdateProductForm.fxml"); 
 	}
 	
+	// Update the product.
 	@FXML
 	private void handleUpdateProductButtonClick() {
 
-		ProductController selectedProduct = (ProductController)this.getSelectedObject(this.productsTable);
+		// Get the selected product.
+		ProductController selectedProduct = (ProductController)Table.getSelected(this.productsTable);
 		
+		// Make sure a product is selected.
 		if(selectedProduct == null) {
 			this.warning.setFill(Color.RED);
 			this.warning.setText("Please select a product to update.");
@@ -161,24 +183,30 @@ public class MainMenuController {
 		
 		System.out.println("Update new product form");
 		
+		// Fill the update product with the selected product.
 		AddUpdateProductFormController.setProduct(selectedProduct);
 		_FXMLUtil.setScreen(root, "AddUpdateProductForm.fxml"); 
 		
 	}
 	
+	// Delete a product.
 	@FXML
 	private void handleDeleteProductButtonClick() {
 
-		ProductController selectedProduct = (ProductController)this.getSelectedObject(this.productsTable);
+		// Get selected product.
+		ProductController selectedProduct = (ProductController)Table.getSelected(this.productsTable);
 		
+		// Make sure there is a product selected.
 		if(selectedProduct == null) {
 			this.warning.setFill(Color.RED);
 			this.warning.setText("Please select a product to delete.");
 			return;
 		}
 
+		// Confirm the intension with the user.
 		if(!AlertBox.confirmation("Are you sure you want to delete this part?")) return;
 		
+		// Make sure there is no part associated with the product.
 		if(!InventoryController.deleteProduct(selectedProduct)) {
 			this.warning.setFill(Color.RED);
 			this.warning.setText("Product cannot be deleted, since it has parts associated with it.");
@@ -187,62 +215,16 @@ public class MainMenuController {
 		
 		this.warning.setText("Product deleted successfully!");
 		this.warning.setFill(Color.GREEN);
-		this.loadProductsTable(InventoryController.getAllProducts());
+		
+		// Reload the table.
+		Table.load(this.productsTable, InventoryController.getAllProducts());
 		
 	}
 	
-	private void initPartsTableColumns() {
-		
-		this.partsTable.setEditable(true);
-
-		TableColumn<PartController, Integer> idColumn = new TableColumn<>("Part Id");
-		idColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getId()).asObject());
-
-		TableColumn<PartController, String> nameColumn = new TableColumn<>("Part Name");
-		nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
-
-		TableColumn<PartController, Integer> inventoryColumn = new TableColumn<>("Units Available");
-		inventoryColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getUnitsAvailable()).asObject());
-
-		TableColumn<PartController, Double> priceColumn = new TableColumn<>("Unit Cost");
-		priceColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getPrice()).asObject());
-
-		this.partsTable.getColumns().addAll(idColumn, nameColumn, inventoryColumn, priceColumn);
-	
-	}
-	
-	private void initProductsTableColumns() {
-		
-		this.productsTable.setEditable(true);
-
-		TableColumn<ProductController, Integer> idColumn = new TableColumn<>("Product Id");
-		idColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getId()).asObject());
-
-		TableColumn<ProductController, String> nameColumn = new TableColumn<>("Product Name");
-		nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
-
-		TableColumn<ProductController, Integer> inventoryColumn = new TableColumn<>("Units Available");
-		inventoryColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getUnitsAvailable()).asObject());
-
-		TableColumn<ProductController, Double> priceColumn = new TableColumn<>("Unit Cost");
-		priceColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getPrice()).asObject());
-
-		this.productsTable.getColumns().addAll(idColumn, nameColumn, inventoryColumn, priceColumn);
-	
-	}
-	
-	private void loadPartsTable(ArrayList<PartController> allParts) {
-
-		ObservableList<PartController> _allParts = FXCollections.observableArrayList(allParts);
-		this.partsTable.setItems(_allParts);
-
-	}
-	
-	private void loadProductsTable(ArrayList<ProductController> allProducts) {
-		
-		ObservableList<ProductController> _allProducts = FXCollections.observableArrayList(allProducts);
-		this.productsTable.setItems(_allProducts);
-		
+	@FXML
+	private void handleExitButtonClick() {
+		Platform.exit();
+		System.exit(0);
 	}
 	
 }
