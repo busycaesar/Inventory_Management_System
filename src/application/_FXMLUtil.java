@@ -16,6 +16,9 @@ public class _FXMLUtil {
 			}
     }
     
+    /*
+     * Reference: https://docs.oracle.com/javase/8/javafx/api/javafx/fxml/FXMLLoader.html#getController--
+     */
     public static Object getFXMLController(String fxmlFilePath) {
         FXMLLoader loader = new FXMLLoader(_FXMLUtil.class.getResource(fxmlFilePath));
         try {

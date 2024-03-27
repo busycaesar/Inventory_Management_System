@@ -103,18 +103,20 @@ public class MainMenuController {
 	private void handleUpdatePartButtonClick() {
 		PartController selectedPart = (PartController)this.getSelectedObject(partsTable);
 		
-		if(selectedPart != null) {
-			System.out.println("Update new part form");
-			AddUpdatePartFormController controller 
-			= (AddUpdatePartFormController) _FXMLUtil.getFXMLController("AddUpdatePartForm.fxml");
-			controller.setPart(selectedPart);
-			_FXMLUtil.setScreen(root, "AddUpdatePartForm.fxml"); 			
-		}
-		else {
+		if(selectedPart == null) {
 			this.warning.setFill(Color.RED);
 			this.warning.setText("Please select a part to update.");
+			return;
 		}
 		
+		System.out.println("Update new part form");
+		
+		AddUpdatePartFormController.setPart(selectedPart);
+		//AddUpdatePartFormController controller 
+		//	= (AddUpdatePartFormController) _FXMLUtil.getFXMLController("AddUpdatePartForm.fxml");
+		//controller.loadPart(selectedPart);
+		_FXMLUtil.setScreen(root, "AddUpdatePartForm.fxml"); 			
+
 	}
 	
 	@FXML

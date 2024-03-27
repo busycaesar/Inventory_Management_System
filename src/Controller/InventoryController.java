@@ -20,6 +20,14 @@ public class InventoryController {
 		
 	}
 	
+	public static void updateInHousePart(int id, String name, int unitsAvailable, double unitCost, int maxAllowed, int minRequire, int machineId) {
+		
+		// Create a part object.
+		InHousePart part = new InHousePart(id, unitsAvailable, minRequire, maxAllowed, name, unitCost, machineId);
+		InventoryController.inventory.updatePart(part);
+		
+	}
+	
 	public static void saveOutsourcePart(String name, int unitsAvailable, double unitCost, int maxAllowed, int minRequire, String companyName) {
 		
 		// Create a part object.
@@ -28,6 +36,14 @@ public class InventoryController {
 		// Store the object into the inventory.
 		InventoryController.inventory.addPart(part);
 		
+	}
+	
+	public static void updateOutsourcePart(int id, String name, int unitsAvailable, double unitCost, int maxAllowed, int minRequire, String companyName) {
+		
+		// Create a part object.
+		OutsourcePart part = new OutsourcePart(id, unitsAvailable, minRequire, maxAllowed, name, unitCost, companyName);
+		InventoryController.inventory.updatePart(part);
+	
 	}
 	
 	public static void saveProduct(int unitsAvailable, int minRequire, int maxAllowed, String name, double price, ArrayList<PartController> associatedParts) {
@@ -48,6 +64,8 @@ public class InventoryController {
 	public static ArrayList<PartController> getAllParts() {
 		ArrayList<PartController> parts = new ArrayList<>();
 		ArrayList<Part> allParts = InventoryController.inventory.getAllParts();
+		
+		if(allParts.size() > 0) System.out.println("chaned: "+allParts.get(0).getName());
 		
 		for(int i = 0; i < allParts.size(); i++) {
 			PartController part = new PartController(allParts.get(i));

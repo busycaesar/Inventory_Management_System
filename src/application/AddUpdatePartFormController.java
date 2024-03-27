@@ -25,16 +25,58 @@ public class AddUpdatePartFormController {
     private ToggleGroup partManufacture;
     @FXML
     private Text title;
+    @FXML
+    private static PartController part;
     
     @FXML
-    public void initialize() {;
+    public void initialize() {
+    	
     	this.partManufacture = new ToggleGroup();
     	this.inHouseRadioButton.setToggleGroup(partManufacture);
     	this.outsourcedRadioButton.setToggleGroup(partManufacture);
+
+    	if(AddUpdatePartFormController.part != null) {
+    		this.title.setText("Update Part");
+    		this.loadPart(AddUpdatePartFormController.part);
+    		return;
+    	}
+    	
+    	this.title.setText("Add Part");
     	this.setDefaults();
+    	
+    }
+    
+    public static void setPart(PartController _part) {
+    	AddUpdatePartFormController.part = _part;
+    }
+    
+    public void loadPart(PartController part) {
+        
+    	System.out.println("Load existing part to update");
+    	
+    	this.name.setText(part.getName());
+    	this.unitCost.setText(part.getPrice()+"");
+    	this.unitsAvailable.setText(part.getUnitsAvailable()+"");
+    	this.maxAllowed.setText(part.getMaxAllowed()+"");
+    	this.minRequire.setText(part.getMinRequire()+"");
+    	
+    	if(part.isInHouse()) {
+    		this.inHouseRadioButton.setSelected(true);
+    		this.outsourcedRadioButton.setSelected(false);
+    		this.manufactureInformation.setText(part.getMachineId()+"");
+    		machineIdLabel.setText("Machine Id*");
+    	}
+    	else {
+       		this.inHouseRadioButton.setSelected(false);
+    		this.outsourcedRadioButton.setSelected(true);
+    		this.manufactureInformation.setText(part.getCompanyName());
+    		machineIdLabel.setText("Company Name*");
+    	}
+    	
     }
     
     private void setDefaults() {
+    	
     	this.requireFieldsWarning.setFill(Color.BLACK);
     	this.addEventListener();
     	this.inHouseRadioButton.setSelected(true);
@@ -44,10 +86,8 @@ public class AddUpdatePartFormController {
     	this.maxAllowed.setText("");
     	this.minRequire.setText("");
     	this.manufactureInformation.setText("");
-    }
-    
-    public void setPart(PartController part) {
-    	System.out.println("Working");
+    	AddUpdatePartFormController.part = null;
+    	
     }
     
     private void addEventListener() {
@@ -115,12 +155,28 @@ public class AddUpdatePartFormController {
 				return;
 			}
 			
+			int partId = -1;
+			
+			if(AddUpdatePartFormController.part != null) partId = AddUpdatePartFormController.part.getId();
+			
 			// Based on the manufacturing, pass the part information to inventory controller.
 			if(this.inHouseRadioButton.isSelected()) {
 				int _machineId = Integer.parseInt(_manufactureInformationInput);
-				InventoryController.saveInHousePart(_name, _unitsAvailable, _unitCost, _maxAllowed, _minRequire, _machineId);
+				
+				if(partId < 0)
+					InventoryController.saveInHousePart(_name, _unitsAvailable, _unitCost, _maxAllowed, _minRequire, _machineId);
+				else InventoryController.updateInHousePart(partId, _name, _unitsAvailable, _unitCost, _maxAllowed, _minRequire, _machineId);
+				
 			}
-			else InventoryController.saveOutsourcePart(_name, _unitsAvailable, _unitCost, _maxAllowed, _minRequire, _manufactureInformationInput);
+			else {
+				
+				if(partId < 0)
+					InventoryController.saveOutsourcePart(_name, _unitsAvailable, _unitCost, _maxAllowed, _minRequire, _manufactureInformationInput);
+				else InventoryController.updateOutsourcePart(partId, _name, _unitsAvailable, _unitCost, _maxAllowed, _minRequire, _name);
+				
+			}
+			
+			this.setDefaults();
 			
 			_FXMLUtil.setScreen(root, "MainMenu.fxml");
 			

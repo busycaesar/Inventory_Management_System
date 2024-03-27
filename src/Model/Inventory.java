@@ -65,16 +65,22 @@ public class Inventory {
 	
 	// Update an existing product.
 	public void updateProduct(Product _product) {
-		for(Product product: this.allProducts) {
-			if(product.getId() == _product.getId()) product = _product;
+		
+		for(int i = 0; i < this.allProducts.size(); i++) {
+			if(this.allProducts.get(i).getId() == _product.getId())
+				this.allProducts.set(i, _product);
 		}
+
 	}
 	
 	// Update an existing part.
 	public void updatePart(Part _part) {
-		for(Part part: this.allParts) {
-			if(part.getId() == _part.getId()) part = _part;
+		
+		for(int i = 0; i < this.allParts.size(); i++) {
+			if(this.allParts.get(i).getId() == _part.getId())
+				this.allParts.set(i, _part);
 		}
+		
 	}
 	
 	// Update an existing product.
