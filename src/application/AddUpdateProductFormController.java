@@ -28,7 +28,7 @@ public class AddUpdateProductFormController {
     @FXML
     private Text requireFieldsWarning, warning;
     @FXML
-    private TableView<PartController> nonAssociatedParts, associatedParts;
+    private TableView<PartController> nonAssociatedPartsTable, associatedPartsTable;
     
     @FXML
     public void initialize() {
@@ -52,11 +52,9 @@ public class AddUpdateProductFormController {
 			this.switchScreen.screen(root, "MainMenu.fxml"); 
 	}
 	
-	private void loadNonAssociatedPartsTable() {
+	private void loadPartTable(TableView<PartController> table, ObservableList<PartController> parts) {
 		
-		ObservableList<PartController> allParts = FXCollections.observableArrayList(InventoryController.getAllParts());
-			
-		this.nonAssociatedParts.setEditable(true);
+		table.setEditable(true);
 
 		TableColumn<PartController, Integer> idColumn = new TableColumn<>("Part Id");
 		idColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getId()).asObject());
@@ -70,9 +68,17 @@ public class AddUpdateProductFormController {
 		TableColumn<PartController, Double> priceColumn = new TableColumn<>("Unit Cost");
 		priceColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getPrice()).asObject());
 
-		this.nonAssociatedParts.getColumns().addAll(idColumn, nameColumn, inventoryColumn, priceColumn);
+		table.getColumns().addAll(idColumn, nameColumn, inventoryColumn, priceColumn);
 	    
-		this.nonAssociatedParts.setItems(allParts);
+		table.setItems(parts);
+		
+	}
+	
+	private void loadNonAssociatedPartsTable() {
+		
+		ObservableList<PartController> allParts = FXCollections.observableArrayList(InventoryController.getAllParts());
+		
+		this.loadPartTable(this.nonAssociatedPartsTable, allParts);
 
 	}
 	
@@ -80,23 +86,7 @@ public class AddUpdateProductFormController {
 		
 		ObservableList<PartController> allParts = FXCollections.observableArrayList(InventoryController.getAllParts());
 			
-		this.associatedParts.setEditable(true);
-
-		TableColumn<PartController, Integer> idColumn = new TableColumn<>("Part Id");
-		idColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getId()).asObject());
-
-		TableColumn<PartController, String> nameColumn = new TableColumn<>("Part Name");
-		nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
-
-		TableColumn<PartController, Integer> inventoryColumn = new TableColumn<>("Units Available");
-		inventoryColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getUnitsAvailable()).asObject());
-
-		TableColumn<PartController, Double> priceColumn = new TableColumn<>("Unit Cost");
-		priceColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getPrice()).asObject());
-
-		this.associatedParts.getColumns().addAll(idColumn, nameColumn, inventoryColumn, priceColumn);
-	    
-		this.associatedParts.setItems(allParts);
+		this.loadPartTable(this.associatedPartsTable, allParts);
 
 	}
 	

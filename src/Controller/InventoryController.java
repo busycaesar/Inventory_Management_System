@@ -81,4 +81,56 @@ public class InventoryController {
 		return true;
 	}
 	
+	public static ArrayList<PartController> searchPartById(int partId) {
+		Part foundPart = InventoryController.inventory.searchPartById(partId);
+		ArrayList<PartController> foundParts = new ArrayList<>();
+
+		if(foundPart != null) {
+			PartController part = new PartController(foundPart);
+			foundParts.add(part);
+		}
+
+		return foundParts;			
+	}
+	
+	public static ArrayList<PartController> searchPartByName(String partName) {
+		ArrayList<Part> foundParts = InventoryController.inventory.searchPartByName(partName);
+		ArrayList<PartController> _foundParts = new ArrayList<>();
+		
+		if(foundParts.size() > 0) {
+			for(Part part: foundParts) {
+				PartController _part = new PartController(part);
+				_foundParts.add(_part);
+			}
+		}
+
+		return _foundParts;
+	}
+	
+	public static ArrayList<ProductController> searchProductById(int productId) {
+		Product foundProduct = InventoryController.inventory.searchProductById(productId);
+		ArrayList<ProductController> foundProducts = new ArrayList<>();
+
+		if(foundProduct != null) {
+			ProductController product = new ProductController(foundProduct);
+			foundProducts.add(product);
+		}
+
+		return foundProducts;			
+	}
+	
+	public static ArrayList<ProductController> searchProductByName(String productName) {
+		ArrayList<Product> foundProducts = InventoryController.inventory.searchProductByName(productName);
+		ArrayList<ProductController> _foundProducts = new ArrayList<>();
+		
+		if(foundProducts.size() > 0) {
+			for(Product product: foundProducts) {
+				ProductController _product = new ProductController(product);
+				_foundProducts.add(_product);
+			}
+		}
+
+		return _foundProducts;
+	}
+	
 }

@@ -53,13 +53,13 @@ public class AddUpdatePartFormController {
     }
     
     private void addEventListener() {
-        inHouseRadioButton.selectedProperty().addListener((observable, oldValue, newValue) -> {
+        this.inHouseRadioButton.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
                 machineIdLabel.setText("Machine Id*");
             }
         });
 
-        outsourcedRadioButton.selectedProperty().addListener((observable, oldValue, newValue) -> {
+        this.outsourcedRadioButton.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
                 machineIdLabel.setText("Company Name*");
             }

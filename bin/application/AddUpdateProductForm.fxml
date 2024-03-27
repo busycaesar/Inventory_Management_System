@@ -71,9 +71,9 @@
                      </font>
                   </Label>
                   <TextField fx:id="minRequire" layoutX="180.0" layoutY="285.0" />
-                  <TableView fx:id="nonAssociatedParts" layoutX="567.0" layoutY="77.0" prefHeight="152.0" prefWidth="353.0">
+                  <TableView fx:id="nonAssociatedPartsTable" layoutX="567.0" layoutY="77.0" prefHeight="152.0" prefWidth="353.0">
                   </TableView>
-                  <TableView fx:id="associatedParts" layoutX="567.0" layoutY="277.0" prefHeight="152.0" prefWidth="353.0">                  </TableView>
+                  <TableView fx:id="associatedPartsTable" layoutX="567.0" layoutY="277.0" prefHeight="152.0" prefWidth="353.0">                  </TableView>
                   <TextField layoutX="771.0" layoutY="39.0" promptText="Search by part id or name" />
                   <Button layoutX="876.0" layoutY="238.0" mnemonicParsing="false" text="Add">
                      <font>

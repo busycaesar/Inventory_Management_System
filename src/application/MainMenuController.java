@@ -1,8 +1,8 @@
 package application;
 
-import Controller.InventoryController;
-import Controller.PartController;
-import Controller.ProductController;
+import java.util.ArrayList;
+
+import Controller.*;
 import UtilityFunction.AlertBox;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -12,6 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -27,18 +28,65 @@ public class MainMenuController {
     private TableView<ProductController> productsTable;
     @FXML
     private Text warning;
+    @FXML
+    private TextField searchPart, searchProduct;
     
     @FXML
     public void initialize() {
         this.switchScreen = new SwitchScreen();
-        this.loadPartsTable();
-        this.loadProductsTable();
+        this.initPartsTableColumns();
+        this.initProductsTableColumns();
+        this.loadPartsTable(InventoryController.getAllParts());
+        this.loadProductsTable(InventoryController.getAllProducts());
         this.setDefaults();
     }
     
-    public void setDefaults() {
+    private void setDefaults() {
     	this.warning.setText("");
     	this.warning.setFill(Color.BLACK);
+    	this.setEventListeners();
+    }
+    
+    private void setEventListeners() {
+    	this.searchPart.textProperty().addListener((observable, oldValue, newValue) -> {
+    		
+    		ArrayList<PartController> foundParts = null;
+    		
+    		try {
+    			
+    	        int id = Integer.parseInt(newValue);
+    	        foundParts = InventoryController.searchPartById(id);
+    	        
+    	    } catch (NumberFormatException e) {
+    	    	
+    	    	if(newValue.isBlank()) this.loadPartsTable(InventoryController.getAllParts());
+    	    	else foundParts = InventoryController.searchPartByName(newValue);
+    	    	
+    	    }
+    		
+    		if(foundParts != null) this.loadPartsTable(foundParts);
+    		
+    	});
+    	
+    	this.searchProduct.textProperty().addListener((observable, oldValue, newValue) -> {
+
+    		ArrayList<ProductController> foundProducts = null;
+    		
+    		try {
+    			
+    	        int id = Integer.parseInt(newValue);
+    	        foundProducts = InventoryController.searchProductById(id);
+    	        
+    	    } catch (NumberFormatException e) {
+    	    	
+    	    	if(newValue.isBlank()) this.loadProductsTable(InventoryController.getAllProducts());
+    	    	else foundProducts = InventoryController.searchProductByName(newValue);
+    	    	
+    	    }
+    		
+    		if(foundProducts != null) this.loadProductsTable(foundProducts);
+    		
+    	});
     }
     
 	@FXML
@@ -62,7 +110,7 @@ public class MainMenuController {
 		if(InventoryController.deletePart(selectedPart)) {
 			this.warning.setText("Part deleted successfully!");
 			this.warning.setFill(Color.GREEN);
-			this.loadPartsTable();
+			this.loadPartsTable(InventoryController.getAllParts());
 		}
 		else {
 			this.warning.setText("Part cannot be deleted. Since it is associated with a product.");
@@ -90,10 +138,8 @@ public class MainMenuController {
 		}
 	}
 	
-	private void loadPartsTable() {
+	private void initPartsTableColumns() {
 		
-		ObservableList<PartController> allParts = FXCollections.observableArrayList(InventoryController.getAllParts());
-			
 		this.partsTable.setEditable(true);
 
 		TableColumn<PartController, Integer> idColumn = new TableColumn<>("Part Id");
@@ -109,15 +155,11 @@ public class MainMenuController {
 		priceColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getPrice()).asObject());
 
 		this.partsTable.getColumns().addAll(idColumn, nameColumn, inventoryColumn, priceColumn);
-	    
-		this.partsTable.setItems(allParts);
-
+	
 	}
 	
-	private void loadProductsTable() {
+	private void initProductsTableColumns() {
 		
-		ObservableList<ProductController> allProducts = FXCollections.observableArrayList(InventoryController.getAllProducts());
-			
 		this.productsTable.setEditable(true);
 
 		TableColumn<ProductController, Integer> idColumn = new TableColumn<>("Product Id");
@@ -133,8 +175,20 @@ public class MainMenuController {
 		priceColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getPrice()).asObject());
 
 		this.productsTable.getColumns().addAll(idColumn, nameColumn, inventoryColumn, priceColumn);
+	
+	}
+	
+	private void loadPartsTable(ArrayList<PartController> allParts) {
+
+		ObservableList<PartController> _allParts = FXCollections.observableArrayList(allParts);
+		this.partsTable.setItems(_allParts);
+
+	}
+	
+	private void loadProductsTable(ArrayList<ProductController> allProducts) {
 		
-		this.productsTable.setItems(allProducts);
+		ObservableList<ProductController> _allProducts = FXCollections.observableArrayList(allProducts);
+		this.productsTable.setItems(_allProducts);
 		
 	}
 	

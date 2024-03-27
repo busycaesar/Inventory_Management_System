@@ -40,19 +40,27 @@ public class Inventory {
 	}
 	
 	// Get a product using its id.
-	public Product searchProductByName(String name) {
+	public ArrayList<Product> searchProductByName(String name) {
+		
+		ArrayList<Product> foundProducts = new ArrayList<Product>();
+		
 		for(Product product: this.allProducts) {
-			if(product.getName() == name) return product;
+			if(product.getName() == name) foundProducts.add(product);
 		}
-		return null;
+		
+		return foundProducts;
 	}
 	
 	// Get a part using its name.
-	public Part searchPartByName(String name) {
+	public ArrayList<Part> searchPartByName(String name) {
+		
+		ArrayList<Part> foundParts = new ArrayList<>();
+		
 		for(Part part: this.allParts) {
-			if(part.getName() == name) return part;
+			if(part.getName() == name) foundParts.add(part);
 		}
-		return null;
+		
+		return foundParts;
 	}
 	
 	// Update an existing product.

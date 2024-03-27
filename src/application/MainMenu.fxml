@@ -31,12 +31,6 @@
                </font>
             </Text>
             <TableView fx:id="partsTable" layoutX="80.0" layoutY="116.0" prefHeight="296.0" prefWidth="363.0">
-             <!--  <columns>
-                <TreeTableColumn prefWidth="75.0" text="Id" />
-                <TreeTableColumn prefWidth="75.0" text="Name" />
-                  <TreeTableColumn prefWidth="99.0" text="Inventory Level" />
-                  <TreeTableColumn prefWidth="113.0" text="Unit Cost" />
-              </columns> -->
             </TableView>
             <Button layoutX="249.0" layoutY="431.0" mnemonicParsing="false" onAction="#handleAddPartButtonClick" text="Add">
                <font>
@@ -53,7 +47,7 @@
                   <Font size="14.0" />
                </font>
             </Button>
-            <TextField layoutX="296.0" layoutY="78.0" promptText="Search by Id or Name" />
+            <TextField fx:id="searchPart" layoutX="296.0" layoutY="78.0" promptText="Search by Id or Name" />
             <Text layoutX="556.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Products">
                <font>
                   <Font size="20.0" />
@@ -76,7 +70,7 @@
                   <Font size="14.0" />
                </font>
             </Button>
-            <TextField layoutX="772.0" layoutY="80.0" promptText="Search by Id or Name" />
+            <TextField fx:id="searchProduct" layoutX="772.0" layoutY="80.0" promptText="Search by Id or Name" />
                   <Text fx:id="warning" layoutX="250.0" layoutY="501.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="500.13671875">
                      <font>
                         <Font size="14.0" />
