@@ -45,7 +45,7 @@ public class Inventory {
 		ArrayList<Product> foundProducts = new ArrayList<Product>();
 		
 		for(Product product: this.allProducts) {
-			if(product.getName() == name) foundProducts.add(product);
+			if(product.getName().contains(name)) foundProducts.add(product);
 		}
 		
 		return foundProducts;
@@ -57,7 +57,7 @@ public class Inventory {
 		ArrayList<Part> foundParts = new ArrayList<>();
 		
 		for(Part part: this.allParts) {
-			if(part.getName() == name) foundParts.add(part);
+			if(part.getName().contains(name)) foundParts.add(part);
 		}
 		
 		return foundParts;
@@ -88,30 +88,26 @@ public class Inventory {
 	}
 	
 	// Update an existing product.
-	// Reference: Iterator, https://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html
 	public void deleteProduct(Product _product) {
-		Iterator<Product> iterator = this.allProducts.iterator();
-		while(iterator.hasNext()) {
-			Product product = iterator.next();
-			if(product.getId() == _product.getId()) {
-				iterator.remove();
+		
+		for(int i = 0; i < this.allProducts.size(); i++) {
+			if(this.allProducts.get(i).getId() == _product.getId()) {
+				this.allProducts.remove(i);
 				break;
 			}
 		}
 	}
 	 
 	// Delete an existing part if it is not associated with any Product.
-	// Returns true if the part is delete successfully; otherwise false.
 	public void deletePart(Part _part) {
-		Iterator<Part> iterator = this.allParts.iterator();
-		
-		while(iterator.hasNext()) {
-			Part part = iterator.next();
-			if(part.getId() == _part.getId()) {
-				iterator.remove();
+
+		for(int i = 0; i < this.allParts.size(); i++) {
+			if(this.allParts.get(i).getId() == _part.getId()) {
+				this.allParts.remove(i);
 				break;
 			}
 		}
+		
 	}
 	
 	// Get all products.

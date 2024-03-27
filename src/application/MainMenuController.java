@@ -168,9 +168,27 @@ public class MainMenuController {
 	
 	@FXML
 	private void handleDeleteProductButtonClick() {
-		if(AlertBox.confirmation("Are you sure you want to delete this product?")) {
-			System.out.println("Delete a product");
+
+		ProductController selectedProduct = (ProductController)this.getSelectedObject(this.productsTable);
+		
+		if(selectedProduct == null) {
+			this.warning.setFill(Color.RED);
+			this.warning.setText("Please select a product to delete.");
+			return;
 		}
+
+		if(!AlertBox.confirmation("Are you sure you want to delete this part?")) return;
+		
+		if(!InventoryController.deleteProduct(selectedProduct)) {
+			this.warning.setFill(Color.RED);
+			this.warning.setText("Product cannot be deleted, since it has parts associated with it.");
+			return;
+		}
+		
+		this.warning.setText("Product deleted successfully!");
+		this.warning.setFill(Color.GREEN);
+		this.loadProductsTable(InventoryController.getAllProducts());
+		
 	}
 	
 	private void initPartsTableColumns() {

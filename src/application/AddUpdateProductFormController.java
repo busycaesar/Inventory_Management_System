@@ -35,7 +35,6 @@ public class AddUpdateProductFormController {
     
     @FXML
     public void initialize() {
-        this.setDefaults();
         this.setEventListener();
         this.initPartsTables();
         
@@ -45,6 +44,7 @@ public class AddUpdateProductFormController {
         	return;
         }
         
+        this.setDefaults();
         this.title.setText("Add Product");
         this.nonAssociatedParts = InventoryController.getAllParts();
         this.associatedParts = new ArrayList<>();
@@ -57,6 +57,7 @@ public class AddUpdateProductFormController {
     	this.unitsAvailable.setText("");
     	this.maxAllowed.setText("");
     	this.minRequire.setText("");
+    	AddUpdateProductFormController.product = null;
     }
     
     public static void setProduct(ProductController product) {
@@ -170,6 +171,31 @@ public class AddUpdateProductFormController {
 		
 	}
 	
+	@FXML
+	private void handleRemoveButtonClick() {
+		
+		PartController selectedPart = (PartController)this.getSelectedObject(this.associatedPartsTable);
+		
+		if(selectedPart == null) {
+			this.warning.setText("Please select a part to remove.");
+			return;
+		}
+		
+		this.nonAssociatedParts.add(selectedPart);
+		
+		this.loadPartTable(this.nonAssociatedPartsTable, this.nonAssociatedParts);
+		
+		for(int i = 0; i < this.associatedParts.size(); i++) {
+			if(this.associatedParts.get(i).getId() == selectedPart.getId()) {
+				this.associatedParts.remove(i);
+				break;
+			}
+		}
+		
+		this.loadPartTable(this.associatedPartsTable, this.associatedParts);
+		
+	}
+	
 	// Check if all the required form fields are filled or not.
 	private boolean checkFormFields() {
 		return !this.name.getText().isEmpty()
@@ -234,7 +260,14 @@ public class AddUpdateProductFormController {
 				return;
 			}
 			
-			InventoryController.saveProduct(_unitsAvailable, _minRequire, _maxAllowed, _name, _unitCost, associatedParts);
+			int productId = -1;
+			
+			if(AddUpdateProductFormController.product != null) productId = AddUpdateProductFormController.product.getId();
+
+			if(productId > 0) InventoryController.updateProduct(productId, _unitsAvailable, _minRequire, _maxAllowed, _name, _unitCost, associatedParts);
+			else InventoryController.saveProduct(_unitsAvailable, _minRequire, _maxAllowed, _name, _unitCost, associatedParts);
+			
+			this.setDefaults();
 			
 			_FXMLUtil.setScreen(root, "MainMenu.fxml");
 			

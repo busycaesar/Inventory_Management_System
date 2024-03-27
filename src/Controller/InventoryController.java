@@ -61,6 +61,27 @@ public class InventoryController {
 		
 	}
 	
+	public static void updateProduct(int id, int unitsAvailable, int minRequire, int maxAllowed, String name, double price, ArrayList<PartController> associatedParts) {
+		
+		ArrayList<Part> _associatedParts = new ArrayList<>();
+		
+		Product currentProduct = InventoryController.inventory.searchProductById(id);
+		
+		for(Part part: currentProduct.getAssociatedParts()) {
+			part.setAssociated(false);
+		}
+		
+		for(PartController partController: associatedParts) {
+			partController.getPart().setAssociated(true);
+			_associatedParts.add(partController.getPart());
+		}
+		
+		Product product = new Product(id, unitsAvailable, minRequire, maxAllowed, name, price, _associatedParts);
+		
+		InventoryController.inventory.updateProduct(product);
+		
+	}
+	
 	public static ArrayList<PartController> getAllParts() {
 		ArrayList<PartController> parts = new ArrayList<>();
 		ArrayList<Part> allParts = InventoryController.inventory.getAllParts();
@@ -88,13 +109,20 @@ public class InventoryController {
 	public static ArrayList<PartController> getNonAssociatedParts(ProductController product){
 		ArrayList<PartController> nonAssociatedParts = new ArrayList<>();
 		
-		for(PartController part: product.getAssociatedParts()) {
-			for(PartController _part: InventoryController.getAllParts()) {
-				if(_part.getId() != part.getId()) nonAssociatedParts.add(_part);
+		for(PartController part: InventoryController.getAllParts()) {
+			if(!InventoryController.isAssociated(part.getId(), product.getAssociatedParts())) {
+				nonAssociatedParts.add(part);
 			}
 		}
 		
 		return nonAssociatedParts;
+	}
+	
+	private static boolean isAssociated(int id, ArrayList<PartController> parts) {
+		for(PartController part : parts) {
+			if(part.getId() == id) return true;
+		}
+		return false;
 	}
 	
 	public static boolean deleteProduct(ProductController product) {
