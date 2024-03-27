@@ -1,13 +1,7 @@
 package application;
 
-import Controller.InventoryController;
-import Controller.PartController;
+import Controller.*;
 import UtilityFunction.AlertBox;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
@@ -18,7 +12,6 @@ public class AddUpdatePartFormController {
 
 	@FXML
     private BorderPane root;
-    private SwitchScreen switchScreen;
     @FXML
     private RadioButton inHouseRadioButton,
     					outsourcedRadioButton;
@@ -30,14 +23,15 @@ public class AddUpdatePartFormController {
     private TextField name, unitsAvailable, unitCost, maxAllowed, minRequire, manufactureInformation; 
     @FXML
     private ToggleGroup partManufacture;
+    @FXML
+    private Text title;
     
     @FXML
-    public void initialize() {
-        this.switchScreen = new SwitchScreen();
-        this.partManufacture = new ToggleGroup();
-        this.inHouseRadioButton.setToggleGroup(partManufacture);
-        this.outsourcedRadioButton.setToggleGroup(partManufacture);
-        this.setDefaults();
+    public void initialize() {;
+    	this.partManufacture = new ToggleGroup();
+    	this.inHouseRadioButton.setToggleGroup(partManufacture);
+    	this.outsourcedRadioButton.setToggleGroup(partManufacture);
+    	this.setDefaults();
     }
     
     private void setDefaults() {
@@ -50,6 +44,10 @@ public class AddUpdatePartFormController {
     	this.maxAllowed.setText("");
     	this.minRequire.setText("");
     	this.manufactureInformation.setText("");
+    }
+    
+    public void setPart(PartController part) {
+    	System.out.println("Working");
     }
     
     private void addEventListener() {
@@ -69,7 +67,7 @@ public class AddUpdatePartFormController {
 	@FXML
 	private void handleCancelButtonClick() { 
 		if(AlertBox.confirmation("Are you sure you want to cancel the process?"))
-		this.switchScreen.screen(root, "MainMenu.fxml"); 
+			_FXMLUtil.setScreen(root, "MainMenu.fxml"); 
 	}
 	
 	// Check if all the required form fields are filled or not.
@@ -124,7 +122,7 @@ public class AddUpdatePartFormController {
 			}
 			else InventoryController.saveOutsourcePart(_name, _unitsAvailable, _unitCost, _maxAllowed, _minRequire, _manufactureInformationInput);
 			
-			this.switchScreen.screen(root, "MainMenu.fxml");
+			_FXMLUtil.setScreen(root, "MainMenu.fxml");
 			
 		} catch (NumberFormatException e) {
 			System.out.println("Invalid integer format");

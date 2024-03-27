@@ -26,7 +26,7 @@
    <center>
       <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Text layoutX="80.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add Part">
+            <Text fx:id="title" layoutX="80.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0">
                <font>
                   <Font size="20.0" />
                </font>

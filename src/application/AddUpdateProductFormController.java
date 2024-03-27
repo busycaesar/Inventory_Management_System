@@ -22,7 +22,6 @@ public class AddUpdateProductFormController {
 
 	@FXML
     private BorderPane root;
-    private SwitchScreen switchScreen;
     @FXML
     private TextField name, unitsAvailable, unitCost, maxAllowed, minRequire;
     @FXML
@@ -32,10 +31,11 @@ public class AddUpdateProductFormController {
     
     @FXML
     public void initialize() {
-        this.switchScreen = new SwitchScreen();
         this.setDefaults();
-        this.loadNonAssociatedPartsTable();
-        this.loadAssociatedPartsTable();
+        this.setEventListener();
+        this.initPartsTables();
+        this.loadPartTable(associatedPartsTable, InventoryController.getAllParts());
+        this.loadPartTable(nonAssociatedPartsTable, InventoryController.getAllParts());
     }
     
     public void setDefaults() {
@@ -45,15 +45,46 @@ public class AddUpdateProductFormController {
     	this.maxAllowed.setText("");
     	this.minRequire.setText("");
     }
+    
+    private void setEventListener() {
+    	
+    /*	this.searchPart.textProperty().addListener((observable, oldValue, newValue) -> {
+    		
+    		ArrayList<PartController> foundParts = null;
+    		
+    		try {
+    			
+    	        int id = Integer.parseInt(newValue);
+    	        foundParts = InventoryController.searchPartById(id);
+    	        
+    	    } catch (NumberFormatException e) {
+    	    	
+    	    	if(newValue.isBlank()) this.loadPartsTable(InventoryController.getAllParts());
+    	    	else foundParts = InventoryController.searchPartByName(newValue);
+    	    	
+    	    }
+    		
+    		if(foundParts != null) this.loadPartsTable(foundParts);
+    		
+    	});*/
+    	
+    }
 
 	@FXML
 	private void handleCancelButtonClick() { 
 		if(AlertBox.confirmation("Are you sure you want to cancel the process?")) 
-			this.switchScreen.screen(root, "MainMenu.fxml"); 
+			_FXMLUtil.setScreen(root, "MainMenu.fxml"); 
 	}
 	
-	private void loadPartTable(TableView<PartController> table, ObservableList<PartController> parts) {
+	private void initPartsTables() {
+	
+		this.initPartsTable(associatedPartsTable);
+		this.initPartsTable(nonAssociatedPartsTable);
 		
+	}
+	
+	private void initPartsTable(TableView<PartController> table) {
+	
 		table.setEditable(true);
 
 		TableColumn<PartController, Integer> idColumn = new TableColumn<>("Part Id");
@@ -69,25 +100,14 @@ public class AddUpdateProductFormController {
 		priceColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getPrice()).asObject());
 
 		table.getColumns().addAll(idColumn, nameColumn, inventoryColumn, priceColumn);
-	    
-		table.setItems(parts);
 		
 	}
 	
-	private void loadNonAssociatedPartsTable() {
-		
-		ObservableList<PartController> allParts = FXCollections.observableArrayList(InventoryController.getAllParts());
-		
-		this.loadPartTable(this.nonAssociatedPartsTable, allParts);
+	private void loadPartTable(TableView<PartController> table, ArrayList<PartController> parts) {
 
-	}
-	
-	private void loadAssociatedPartsTable() {
+		ObservableList<PartController> allParts = FXCollections.observableArrayList(parts);
+		table.setItems(allParts);
 		
-		ObservableList<PartController> allParts = FXCollections.observableArrayList(InventoryController.getAllParts());
-			
-		this.loadPartTable(this.associatedPartsTable, allParts);
-
 	}
 	
 	// Check if all the required form fields are filled or not.
@@ -156,7 +176,7 @@ public class AddUpdateProductFormController {
 			
 			InventoryController.saveProduct(_unitsAvailable, _minRequire, _maxAllowed, _name, _unitCost, associatedParts);
 			
-			this.switchScreen.screen(root, "MainMenu.fxml");
+			_FXMLUtil.setScreen(root, "MainMenu.fxml");
 			
 		} catch (NumberFormatException e) {
 			System.out.println("Invalid integer format");

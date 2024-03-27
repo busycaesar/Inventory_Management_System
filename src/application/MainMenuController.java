@@ -21,7 +21,6 @@ public class MainMenuController {
 
     @FXML
     private BorderPane root;
-    private SwitchScreen switchScreen;
     @FXML
     private TableView<PartController> partsTable;
     @FXML
@@ -33,7 +32,6 @@ public class MainMenuController {
     
     @FXML
     public void initialize() {
-        this.switchScreen = new SwitchScreen();
         this.initPartsTableColumns();
         this.initProductsTableColumns();
         this.loadPartsTable(InventoryController.getAllParts());
@@ -89,46 +87,71 @@ public class MainMenuController {
     	});
     }
     
+    private Object getSelectedObject(TableView<?> table) {
+    	
+    	return table.getSelectionModel().getSelectedItem();
+    	
+    }
+    
 	@FXML
 	private void handleAddPartButtonClick() { 
 		System.out.println("Add new part form");
-		this.switchScreen.screen(root, "AddUpdatePartForm.fxml"); 
+		_FXMLUtil.setScreen(root, "AddUpdatePartForm.fxml"); 
 	}
 	
 	@FXML
 	private void handleUpdatePartButtonClick() {
-		System.out.println("Update new part form");
-		this.switchScreen.screen(root, "AddUpdatePartForm.fxml"); 
+		PartController selectedPart = (PartController)this.getSelectedObject(partsTable);
+		
+		if(selectedPart != null) {
+			System.out.println("Update new part form");
+			AddUpdatePartFormController controller 
+			= (AddUpdatePartFormController) _FXMLUtil.getFXMLController("AddUpdatePartForm.fxml");
+			controller.setPart(selectedPart);
+			_FXMLUtil.setScreen(root, "AddUpdatePartForm.fxml"); 			
+		}
+		else {
+			this.warning.setFill(Color.RED);
+			this.warning.setText("Please select a part to update.");
+		}
+		
 	}
 	
 	@FXML
 	private void handleDeletePartButtonClick() {
+		
+		PartController selectedPart = (PartController)this.getSelectedObject(partsTable);
+		
+		if(selectedPart == null) {
+			this.warning.setFill(Color.RED);
+			this.warning.setText("Please select a part to delete.");
+			return;
+		}
+
 		if(!AlertBox.confirmation("Are you sure you want to delete this part?")) return;
 		
-		PartController selectedPart = this.partsTable.getSelectionModel().getSelectedItem();
-		
-		if(InventoryController.deletePart(selectedPart)) {
-			this.warning.setText("Part deleted successfully!");
-			this.warning.setFill(Color.GREEN);
-			this.loadPartsTable(InventoryController.getAllParts());
-		}
-		else {
-			this.warning.setText("Part cannot be deleted. Since it is associated with a product.");
+		if(!InventoryController.deletePart(selectedPart)) {
 			this.warning.setFill(Color.RED);
+			this.warning.setText("Part cannot be deleted. Since it is associated with a product.");
+			return;
 		}
+		
+		this.warning.setText("Part deleted successfully!");
+		this.warning.setFill(Color.GREEN);
+		this.loadPartsTable(InventoryController.getAllParts());
 		
 	}
 	
 	@FXML
 	private void handleAddProductButtonClick() { 
 		System.out.println("Add new product form");
-		this.switchScreen.screen(root, "AddUpdateProductForm.fxml"); 
+		_FXMLUtil.setScreen(root, "AddUpdateProductForm.fxml"); 
 	}
 	
 	@FXML
 	private void handleUpdateProductButtonClick() {
 		System.out.println("Update new product form");
-		this.switchScreen.screen(root, "AddUpdateProductForm.fxml"); 
+		_FXMLUtil.setScreen(root, "AddUpdateProductForm.fxml"); 
 	}
 	
 	@FXML
