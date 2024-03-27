@@ -5,7 +5,14 @@ import java.util.ArrayList;
 import Controller.InventoryController;
 import Controller.PartController;
 import UtilityFunction.AlertBox;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
@@ -20,11 +27,15 @@ public class AddUpdateProductFormController {
     private TextField name, unitsAvailable, unitCost, maxAllowed, minRequire;
     @FXML
     private Text requireFieldsWarning, warning;
+    @FXML
+    private TableView<PartController> nonAssociatedParts, associatedParts;
     
     @FXML
     public void initialize() {
         this.switchScreen = new SwitchScreen();
         this.setDefaults();
+        this.loadNonAssociatedPartsTable();
+        this.loadAssociatedPartsTable();
     }
     
     public void setDefaults() {
@@ -37,8 +48,56 @@ public class AddUpdateProductFormController {
 
 	@FXML
 	private void handleCancelButtonClick() { 
-		if(AlertBox.confirmation("Are you sure you want to cancel the process?"))
-		this.switchScreen.screen(root, "MainMenu.fxml"); 
+		if(AlertBox.confirmation("Are you sure you want to cancel the process?")) 
+			this.switchScreen.screen(root, "MainMenu.fxml"); 
+	}
+	
+	private void loadNonAssociatedPartsTable() {
+		
+		ObservableList<PartController> allParts = FXCollections.observableArrayList(InventoryController.getAllParts());
+			
+		this.nonAssociatedParts.setEditable(true);
+
+		TableColumn<PartController, Integer> idColumn = new TableColumn<>("Part Id");
+		idColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getId()).asObject());
+
+		TableColumn<PartController, String> nameColumn = new TableColumn<>("Part Name");
+		nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
+
+		TableColumn<PartController, Integer> inventoryColumn = new TableColumn<>("Units Available");
+		inventoryColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getUnitsAvailable()).asObject());
+
+		TableColumn<PartController, Double> priceColumn = new TableColumn<>("Unit Cost");
+		priceColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getPrice()).asObject());
+
+		this.nonAssociatedParts.getColumns().addAll(idColumn, nameColumn, inventoryColumn, priceColumn);
+	    
+		this.nonAssociatedParts.setItems(allParts);
+
+	}
+	
+	private void loadAssociatedPartsTable() {
+		
+		ObservableList<PartController> allParts = FXCollections.observableArrayList(InventoryController.getAllParts());
+			
+		this.associatedParts.setEditable(true);
+
+		TableColumn<PartController, Integer> idColumn = new TableColumn<>("Part Id");
+		idColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getId()).asObject());
+
+		TableColumn<PartController, String> nameColumn = new TableColumn<>("Part Name");
+		nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
+
+		TableColumn<PartController, Integer> inventoryColumn = new TableColumn<>("Units Available");
+		inventoryColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getUnitsAvailable()).asObject());
+
+		TableColumn<PartController, Double> priceColumn = new TableColumn<>("Unit Cost");
+		priceColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getPrice()).asObject());
+
+		this.associatedParts.getColumns().addAll(idColumn, nameColumn, inventoryColumn, priceColumn);
+	    
+		this.associatedParts.setItems(allParts);
+
 	}
 	
 	// Check if all the required form fields are filled or not.
@@ -91,7 +150,8 @@ public class AddUpdateProductFormController {
 				this.warning.setText("Minimum require cannot be more than maximum allowed.");
 				return;
 			}
-						
+			
+			// This array gets the list of all the associated parts.
 			ArrayList<PartController> associatedParts = InventoryController.getAllParts();
 			
 			if(associatedParts.size() <= 0) {

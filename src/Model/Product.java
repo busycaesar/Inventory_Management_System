@@ -92,7 +92,6 @@ public class Product {
 	
 	// Add a new associated part into the list.
 	public void addAssociatedParts(Part newAssociatedPart) {
-		newAssociatedPart.setAssociated(true);
 		this.associatedParts.add(newAssociatedPart);
 	}
 	

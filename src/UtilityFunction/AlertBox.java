@@ -12,7 +12,7 @@ public class AlertBox {
 	    alert.setContentText(message);
 	    alert.showAndWait();
 
-	    return alert.getResult() == ButtonType.YES;
+	    return alert.getResult() == ButtonType.OK;
 	}
 	
 }

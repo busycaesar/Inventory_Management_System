@@ -84,18 +84,16 @@ public class Inventory {
 	 
 	// Delete an existing part if it is not associated with any Product.
 	// Returns true if the part is delete successfully; otherwise false.
-	public boolean deletePart(Part _part) {
-		
-		if(_part.isAssociated()) return false;
+	public void deletePart(Part _part) {
 		Iterator<Part> iterator = this.allParts.iterator();
+		
 		while(iterator.hasNext()) {
 			Part part = iterator.next();
 			if(part.getId() == _part.getId()) {
 				iterator.remove();
-				return true;
+				break;
 			}
 		}
-		return false;
 	}
 	
 	// Get all products.

@@ -35,6 +35,7 @@ public class InventoryController {
 		ArrayList<Part> _associatedParts = new ArrayList<>();
 		
 		for(PartController partController: associatedParts) {
+			partController.getPart().setAssociated(true);
 			_associatedParts.add(partController.getPart());
 		}
 		
@@ -54,6 +55,30 @@ public class InventoryController {
 		}
 		
 		return parts;
+	}
+	
+	public static ArrayList<ProductController> getAllProducts() {
+		ArrayList<ProductController> products = new ArrayList<>();
+		ArrayList<Product> allProducts = InventoryController.inventory.getAllProducts();
+		
+		for(int i = 0; i < allProducts.size(); i++) {
+			ProductController product = new ProductController(allProducts.get(i));
+			products.add(product);
+		}
+		
+		return products;
+	}
+	
+	public static boolean deleteProduct(ProductController product) {
+		if(product.getProduct().getAssociatedParts().size() > 0) return false;
+		InventoryController.inventory.deleteProduct(product.getProduct());
+		return true;
+	}
+	
+	public static boolean deletePart(PartController part) {
+		if(part.getPart().isAssociated()) return false;
+		InventoryController.inventory.deletePart(part.getPart());
+		return true;
 	}
 	
 }

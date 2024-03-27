@@ -14,8 +14,20 @@ public class PartController {
 		return this.part;
 	}
 	
+	public int getId() {
+		return this.part.getId();
+	}
+	
+	public String getName() {
+		return this.part.getName();
+	}
+	
+	public int getUnitsAvailable() {
+		return this.part.getStock();
+	}
+	
 	public double getPrice() {
-		return this.part.getPrice()
+		return this.part.getPrice();
 	}
 	
 }
