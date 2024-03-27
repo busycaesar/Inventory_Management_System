@@ -26,7 +26,7 @@
    <center>
       <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Text layoutX="80.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add Product">
+            <Text fx:id="title" layoutX="80.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0">
                <font>
                   <Font size="20.0" />
                </font>
@@ -75,7 +75,7 @@
                   </TableView>
                   <TableView fx:id="associatedPartsTable" layoutX="567.0" layoutY="277.0" prefHeight="152.0" prefWidth="353.0">                  </TableView>
                   <TextField layoutX="771.0" layoutY="39.0" promptText="Search by part id or name" />
-                  <Button layoutX="876.0" layoutY="238.0" mnemonicParsing="false" text="Add">
+                  <Button onAction="#handleAddButtonClick" layoutX="876.0" layoutY="238.0" mnemonicParsing="false" text="Add">
                      <font>
                         <Font size="14.0" />
                      </font>

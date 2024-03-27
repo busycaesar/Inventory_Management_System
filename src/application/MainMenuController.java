@@ -101,7 +101,8 @@ public class MainMenuController {
 	
 	@FXML
 	private void handleUpdatePartButtonClick() {
-		PartController selectedPart = (PartController)this.getSelectedObject(partsTable);
+		
+		PartController selectedPart = (PartController)this.getSelectedObject(this.partsTable);
 		
 		if(selectedPart == null) {
 			this.warning.setFill(Color.RED);
@@ -112,9 +113,6 @@ public class MainMenuController {
 		System.out.println("Update new part form");
 		
 		AddUpdatePartFormController.setPart(selectedPart);
-		//AddUpdatePartFormController controller 
-		//	= (AddUpdatePartFormController) _FXMLUtil.getFXMLController("AddUpdatePartForm.fxml");
-		//controller.loadPart(selectedPart);
 		_FXMLUtil.setScreen(root, "AddUpdatePartForm.fxml"); 			
 
 	}
@@ -122,7 +120,7 @@ public class MainMenuController {
 	@FXML
 	private void handleDeletePartButtonClick() {
 		
-		PartController selectedPart = (PartController)this.getSelectedObject(partsTable);
+		PartController selectedPart = (PartController)this.getSelectedObject(this.partsTable);
 		
 		if(selectedPart == null) {
 			this.warning.setFill(Color.RED);
@@ -152,8 +150,20 @@ public class MainMenuController {
 	
 	@FXML
 	private void handleUpdateProductButtonClick() {
+
+		ProductController selectedProduct = (ProductController)this.getSelectedObject(this.productsTable);
+		
+		if(selectedProduct == null) {
+			this.warning.setFill(Color.RED);
+			this.warning.setText("Please select a product to update.");
+			return;
+		}
+		
 		System.out.println("Update new product form");
+		
+		AddUpdateProductFormController.setProduct(selectedProduct);
 		_FXMLUtil.setScreen(root, "AddUpdateProductForm.fxml"); 
+		
 	}
 	
 	@FXML

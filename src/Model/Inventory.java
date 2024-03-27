@@ -67,8 +67,10 @@ public class Inventory {
 	public void updateProduct(Product _product) {
 		
 		for(int i = 0; i < this.allProducts.size(); i++) {
-			if(this.allProducts.get(i).getId() == _product.getId())
+			if(this.allProducts.get(i).getId() == _product.getId()) {
 				this.allProducts.set(i, _product);
+				break;
+			}
 		}
 
 	}
@@ -77,8 +79,10 @@ public class Inventory {
 	public void updatePart(Part _part) {
 		
 		for(int i = 0; i < this.allParts.size(); i++) {
-			if(this.allParts.get(i).getId() == _part.getId())
+			if(this.allParts.get(i).getId() == _part.getId()) {
 				this.allParts.set(i, _part);
+				break;
+			}
 		}
 		
 	}

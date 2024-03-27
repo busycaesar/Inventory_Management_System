@@ -1,5 +1,8 @@
 package Controller;
 
+import java.util.ArrayList;
+
+import Model.Part;
 import Model.Product;
 
 public class ProductController {
@@ -28,6 +31,25 @@ public class ProductController {
 	
 	public double getPrice() {
 		return this.product.getPrice();
+	}
+	
+	public ArrayList<PartController> getAssociatedParts(){
+		ArrayList<PartController> associatedParts = new ArrayList<>();
+		
+		for(Part part: this.getProduct().getAssociatedParts()) {
+			PartController _part = new PartController(part);
+			associatedParts.add(_part);
+		}
+		
+		return associatedParts;
+	}
+	
+	public int getMaxAllowed() {
+		return this.product.getMaxCapacity();
+	}
+	
+	public int getMinRequire() {
+		return this.product.getMinRequire();
 	}
 	
 }

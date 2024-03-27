@@ -65,8 +65,6 @@ public class InventoryController {
 		ArrayList<PartController> parts = new ArrayList<>();
 		ArrayList<Part> allParts = InventoryController.inventory.getAllParts();
 		
-		if(allParts.size() > 0) System.out.println("chaned: "+allParts.get(0).getName());
-		
 		for(int i = 0; i < allParts.size(); i++) {
 			PartController part = new PartController(allParts.get(i));
 			parts.add(part);
@@ -85,6 +83,18 @@ public class InventoryController {
 		}
 		
 		return products;
+	}
+	
+	public static ArrayList<PartController> getNonAssociatedParts(ProductController product){
+		ArrayList<PartController> nonAssociatedParts = new ArrayList<>();
+		
+		for(PartController part: product.getAssociatedParts()) {
+			for(PartController _part: InventoryController.getAllParts()) {
+				if(_part.getId() != part.getId()) nonAssociatedParts.add(_part);
+			}
+		}
+		
+		return nonAssociatedParts;
 	}
 	
 	public static boolean deleteProduct(ProductController product) {

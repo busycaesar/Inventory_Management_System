@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import Controller.InventoryController;
 import Controller.PartController;
+import Controller.ProductController;
 import UtilityFunction.AlertBox;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -25,25 +26,53 @@ public class AddUpdateProductFormController {
     @FXML
     private TextField name, unitsAvailable, unitCost, maxAllowed, minRequire;
     @FXML
-    private Text requireFieldsWarning, warning;
+    private Text requireFieldsWarning, warning, title;
     @FXML
     private TableView<PartController> nonAssociatedPartsTable, associatedPartsTable;
+    @FXML
+    private static ProductController product;
+    private ArrayList<PartController> nonAssociatedParts, associatedParts;
     
     @FXML
     public void initialize() {
         this.setDefaults();
         this.setEventListener();
         this.initPartsTables();
-        this.loadPartTable(associatedPartsTable, InventoryController.getAllParts());
-        this.loadPartTable(nonAssociatedPartsTable, InventoryController.getAllParts());
+        
+        if(AddUpdateProductFormController.product != null) {   
+        	this.title.setText("Update Product");        	
+        	this.loadProduct(AddUpdateProductFormController.product);
+        	return;
+        }
+        
+        this.title.setText("Add Product");
+        this.nonAssociatedParts = InventoryController.getAllParts();
+        this.associatedParts = new ArrayList<>();
+        this.loadPartTable(nonAssociatedPartsTable, this.nonAssociatedParts);
     }
     
-    public void setDefaults() {
+    private void setDefaults() {
     	this.requireFieldsWarning.setFill(Color.BLACK);
     	this.name.setText("");
     	this.unitsAvailable.setText("");
     	this.maxAllowed.setText("");
     	this.minRequire.setText("");
+    }
+    
+    public static void setProduct(ProductController product) {
+    	AddUpdateProductFormController.product = product;
+    }
+    
+    private void loadProduct(ProductController product) {
+    	this.name.setText(product.getName());
+    	this.unitsAvailable.setText(product.getUnitsAvailable()+"");
+    	this.unitCost.setText(product.getPrice()+"");
+    	this.maxAllowed.setText(product.getMaxAllowed()+"");
+    	this.minRequire.setText(product.getMinRequire()+"");
+    	this.associatedParts = product.getAssociatedParts();
+    	this.nonAssociatedParts = InventoryController.getNonAssociatedParts(product);
+    	this.loadPartTable(associatedPartsTable, this.associatedParts);
+    	this.loadPartTable(nonAssociatedPartsTable, this.nonAssociatedParts);
     }
     
     private void setEventListener() {
@@ -110,6 +139,37 @@ public class AddUpdateProductFormController {
 		
 	}
 	
+    private Object getSelectedObject(TableView<?> table) {
+    	
+    	return table.getSelectionModel().getSelectedItem();
+    	
+    }
+	
+	@FXML
+	private void handleAddButtonClick() {
+		
+		PartController selectedPart = (PartController)this.getSelectedObject(this.nonAssociatedPartsTable);
+		
+		if(selectedPart == null) {
+			this.warning.setText("Please select a part to add.");
+			return;
+		}
+		
+		this.associatedParts.add(selectedPart);
+		
+		this.loadPartTable(associatedPartsTable, associatedParts);
+		
+		for(int i = 0; i < this.nonAssociatedParts.size(); i++) {
+			if(this.nonAssociatedParts.get(i).getId() == selectedPart.getId()) {
+				this.nonAssociatedParts.remove(i);
+				break;
+			}
+		}
+		
+		this.loadPartTable(nonAssociatedPartsTable, nonAssociatedParts);
+		
+	}
+	
 	// Check if all the required form fields are filled or not.
 	private boolean checkFormFields() {
 		return !this.name.getText().isEmpty()
@@ -162,7 +222,7 @@ public class AddUpdateProductFormController {
 			}
 			
 			// This array gets the list of all the associated parts.
-			ArrayList<PartController> associatedParts = InventoryController.getAllParts();
+			ArrayList<PartController> associatedParts = this.associatedParts;
 			
 			if(associatedParts.size() <= 0) {
 				this.warning.setText("A product should have atleast one part associated with it.");
