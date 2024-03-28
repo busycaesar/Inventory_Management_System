@@ -1,4 +1,4 @@
-# Inventory Management System (In Development)
+# Inventory Management System
 
 ## Description
 
@@ -24,6 +24,8 @@ This is an Inventory Management System. It can hold the list of Products, its to
 - Add/Remove new products and parts.
 - Associate part/s with a product.
 - Add/Remove an associated part with the product.
+- Proper error messages
+- Confirmation dialogue boxes before deleting any item.
 
 ## How to run the project
 
