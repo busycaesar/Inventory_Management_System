@@ -1,6 +1,5 @@
 package application;
 
-import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
 
@@ -14,20 +13,6 @@ public class _FXMLUtil {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-    }
-    
-    /*
-     * Reference: https://docs.oracle.com/javase/8/javafx/api/javafx/fxml/FXMLLoader.html#getController--
-     */
-    public static Object getFXMLController(String fxmlFilePath) {
-        FXMLLoader loader = new FXMLLoader(_FXMLUtil.class.getResource(fxmlFilePath));
-        try {
-            loader.load();
-            return loader.getController();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
     
 }

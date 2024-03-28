@@ -35,10 +35,11 @@ public class ProductController {
 	
 	public ArrayList<PartController> getAssociatedParts(){
 		ArrayList<PartController> associatedParts = new ArrayList<>();
+		ArrayList<Part> currentAssociatedParts = this.getProduct().getAssociatedParts();
 		
-		for(Part part: this.getProduct().getAssociatedParts()) {
-			PartController _part = new PartController(part);
-			associatedParts.add(_part);
+		for(int i = 0; i < currentAssociatedParts.size(); i++) {
+			PartController part = new PartController(currentAssociatedParts.get(i));
+			associatedParts.add(part);			
 		}
 		
 		return associatedParts;

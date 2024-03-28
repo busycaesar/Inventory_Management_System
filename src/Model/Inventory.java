@@ -25,16 +25,20 @@ public class Inventory {
 	
 	// Get a product using its id.
 	public Product searchProductById(int id) {
-		for(Product product: this.allProducts) {
-			if(product.getId() == id) return product;
+		for(int i = 0; i < this.allProducts.size(); i++) {
+			Product product = this.allProducts.get(i);
+			if(product.getId() == id)
+				return product;
 		}
 		return null;
 	}
 	
 	// Get a product using its id.
 	public Part searchPartById(int id) {
-		for(Part part: this.allParts) {
-			if(part.getId() == id) return part;
+		for(int i = 0; i < this.allParts.size(); i++) {
+			Part part = this.allParts.get(i);
+			if(part.getId() == id)
+				return part;
 		}
 		return null;
 	}
@@ -44,7 +48,8 @@ public class Inventory {
 		
 		ArrayList<Product> foundProducts = new ArrayList<Product>();
 		
-		for(Product product: this.allProducts) {
+		for(int i = 0; i < this.allProducts.size(); i++) {
+			Product product = this.allProducts.get(i);
 			if(product.getName().contains(name)) foundProducts.add(product);
 		}
 		
@@ -56,7 +61,8 @@ public class Inventory {
 		
 		ArrayList<Part> foundParts = new ArrayList<>();
 		
-		for(Part part: this.allParts) {
+		for(int i = 0; i < this.allParts.size(); i++) {
+			Part part = this.allParts.get(i);
 			if(part.getName().contains(name)) foundParts.add(part);
 		}
 		

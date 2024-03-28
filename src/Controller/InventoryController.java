@@ -50,9 +50,10 @@ public class InventoryController {
 		
 		ArrayList<Part> _associatedParts = new ArrayList<>();
 		
-		for(PartController partController: associatedParts) {
-			partController.getPart().setAssociated(true);
-			_associatedParts.add(partController.getPart());
+		for(int i = 0; i < associatedParts.size(); i++) {
+			PartController part = associatedParts.get(i);
+			part.setAssociated(true);
+			_associatedParts.add(part.getPart());
 		}
 		
 		Product product = new Product(InventoryController.inventory.getProductId(), unitsAvailable, minRequire, maxAllowed, name, price, _associatedParts);
@@ -67,13 +68,14 @@ public class InventoryController {
 		
 		Product currentProduct = InventoryController.inventory.searchProductById(id);
 		
-		for(Part part: currentProduct.getAssociatedParts()) {
-			part.setAssociated(false);
+		for(int i = 0; i < currentProduct.getAssociatedParts().size(); i++) {
+			currentProduct.getAssociatedParts().get(i).setAssociated(false);
 		}
 		
-		for(PartController partController: associatedParts) {
-			partController.getPart().setAssociated(true);
-			_associatedParts.add(partController.getPart());
+		for(int i = 0; i < associatedParts.size(); i++) {
+			PartController part = associatedParts.get(i);
+			part.setAssociated(true);
+			_associatedParts.add(part.getPart());
 		}
 		
 		Product product = new Product(id, unitsAvailable, minRequire, maxAllowed, name, price, _associatedParts);
@@ -108,8 +110,10 @@ public class InventoryController {
 	
 	public static ArrayList<PartController> getNonAssociatedParts(ProductController product){
 		ArrayList<PartController> nonAssociatedParts = new ArrayList<>();
+		ArrayList<PartController> allParts = InventoryController.getAllParts();
 		
-		for(PartController part: InventoryController.getAllParts()) {
+		for(int i = 0; i < allParts.size(); i++) {
+			PartController part = allParts.get(i);
 			if(!InventoryController.isAssociated(part.getId(), product.getAssociatedParts())) {
 				nonAssociatedParts.add(part);
 			}
@@ -119,6 +123,7 @@ public class InventoryController {
 	}
 	
 	private static boolean isAssociated(int id, ArrayList<PartController> parts) {
+		
 		for(PartController part : parts) {
 			if(part.getId() == id) return true;
 		}
@@ -154,9 +159,9 @@ public class InventoryController {
 		ArrayList<PartController> _foundParts = new ArrayList<>();
 		
 		if(foundParts.size() > 0) {
-			for(Part part: foundParts) {
-				PartController _part = new PartController(part);
-				_foundParts.add(_part);
+			for(int i = 0; i < foundParts.size(); i++) {
+				PartController part = new PartController(foundParts.get(i));
+				_foundParts.add(part);
 			}
 		}
 
@@ -180,9 +185,10 @@ public class InventoryController {
 		ArrayList<ProductController> _foundProducts = new ArrayList<>();
 		
 		if(foundProducts.size() > 0) {
-			for(Product product: foundProducts) {
-				ProductController _product = new ProductController(product);
-				_foundProducts.add(_product);
+			for(int i = 0; i < foundProducts.size(); i++) {
+				ProductController product = new ProductController(foundProducts.get(i));
+				_foundProducts.add(product);
+				
 			}
 		}
 
