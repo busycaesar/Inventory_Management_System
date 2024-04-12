@@ -1,4 +1,4 @@
-package application;
+package View;
 
 import java.util.ArrayList;
 
@@ -6,13 +6,7 @@ import Controller.*;
 import UtilityFunction.AlertBox;
 import UtilityFunction.Table;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -35,17 +29,24 @@ public class MainMenuController {
     
     @FXML
     public void initialize() {
-    	
+
     	// Init columns for both parts and product table.
     	Table.initPartsColumns(this.partsTable);
     	Table.initProductsColumns(this.productsTable);
         
-        // Load both the table with all the data.
-        Table.load(this.partsTable, InventoryController.getAllParts());
-        Table.load(this.productsTable, InventoryController.getAllProducts());
+    	// Load both the tables.
+    	this.loadBothTables();
         
         this.setDefaults();
         this.setEventListeners();
+    }
+    
+    private void loadBothTables() {
+    	
+    	// Load both the table with all the data.
+    	Table.load(this.partsTable, InventoryController.getAllParts());
+    	Table.load(this.productsTable, InventoryController.getAllProducts());    	
+    	
     }
     
     // Set all properties to default.
@@ -63,8 +64,8 @@ public class MainMenuController {
     		
     		try {
     			
-    	        int id = Integer.parseInt(newValue);
-    	        foundParts = InventoryController.searchPartById(id);
+    	        int id 	   	   = Integer.parseInt(newValue);
+    	        	foundParts = InventoryController.searchPartById(id);
     	        
     	    } catch (NumberFormatException e) {
     	    	
@@ -83,8 +84,8 @@ public class MainMenuController {
     		
     		try {
     			
-    	        int id = Integer.parseInt(newValue);
-    	        foundProducts = InventoryController.searchProductById(id);
+    	        int id 			  = Integer.parseInt(newValue);
+    	        	foundProducts = InventoryController.searchProductById(id);
     	        
     	    } catch (NumberFormatException e) {
     	    	
@@ -165,6 +166,30 @@ public class MainMenuController {
 	private void handleAddProductButtonClick() { 
 		System.out.println("Add new product form");
 		_FXMLUtil.setScreen(root, "AddUpdateProductForm.fxml"); 
+	}
+	
+	@FXML
+	private void handleSaveFileButtonClicked() { 
+		if(InventoryController.storeInventoryObject())
+			this.warning.setText("Data stored successfully!");
+	}
+	
+	@FXML
+	private void handleLoadDataFileButtonClicked() { 
+		if(InventoryController.getInventoryObject()) this.loadBothTables();
+		else this.warning.setText("Error while loading the data");
+	}
+	
+	@FXML
+	private void handleSaveDBButtonClicked() { 
+		if(InventoryController.storeInventoryIntoDB())
+			this.warning.setText("Data stored successfully!");
+	}
+	
+	@FXML
+	private void handleLoadDataDBButtonClicked() { 
+		if(InventoryController.loadDataFromDB()) this.loadBothTables();
+		else this.warning.setText("Error while loading the data");
 	}
 	
 	// Update the product.

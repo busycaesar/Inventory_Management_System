@@ -1,4 +1,4 @@
-package application;
+package View;
 
 import java.util.ArrayList;
 
@@ -76,8 +76,8 @@ public class AddUpdateProductFormController {
     		
     		try {
     			
-    	        int id = Integer.parseInt(newValue);
-    	        foundParts = InventoryController.searchPartById(id);
+    	        int id 		   = Integer.parseInt(newValue);
+    	        	foundParts = InventoryController.searchPartById(id);
     	        
     	    } catch (NumberFormatException e) {
     	    	
@@ -157,19 +157,19 @@ public class AddUpdateProductFormController {
 		}
 		
 		// Get all the inputs.
-		String _name = this.name.getText(),
+		String _name 				= this.name.getText(),
 			   _unitsAvailableInput = this.unitsAvailable.getText(),
-			   _unitCostInput = this.unitCost.getText(),
-			   _maxAllowedInput = this.maxAllowed.getText(),
-		       _minRequireInput = this.minRequire.getText();
+			   _unitCostInput 		= this.unitCost.getText(),
+			   _maxAllowedInput 	= this.maxAllowed.getText(),
+		       _minRequireInput 	= this.minRequire.getText();
 		
 		try {
 			
 			// Convert the required input strings into ints and doubles.
-			int _unitsAvailable = Integer.parseInt(_unitsAvailableInput),
-				_maxAllowed = Integer.parseInt(_maxAllowedInput),
-				_minRequire = Integer.parseInt(_minRequireInput);
-			double _unitCost = Double.parseDouble(_unitCostInput);
+			int    _unitsAvailable = Integer.parseInt(_unitsAvailableInput),
+				   _maxAllowed 	   = Integer.parseInt(_maxAllowedInput),
+				   _minRequire 	   = Integer.parseInt(_minRequireInput);
+			double _unitCost 	   = Double.parseDouble(_unitCostInput);
 			
 			if(_unitsAvailable < _minRequire || _unitsAvailable > _maxAllowed) {
 				this.warning.setText("Units cannot be less than minimum require or more than maximum allowed.");

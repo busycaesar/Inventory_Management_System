@@ -1,8 +1,16 @@
 package Model;
 
-public class OutsourcePart extends Part {
+import java.io.Serializable;
 
-	private String companyName;
+public class OutsourcePart extends Part implements Serializable {
+
+	private static final long   serialVersionUID = 1L;
+
+	private 			 String companyName;
+	
+	public OutsourcePart() {
+		super();
+	}
 	
 	public OutsourcePart(int _id, int _stock, int _minRequire, int _maxCapacity, String _name, double _price, String _companyName) {
 		super(_id, _stock, _minRequire, _maxCapacity, _name, _price);	

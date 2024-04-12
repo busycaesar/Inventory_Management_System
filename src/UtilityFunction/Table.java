@@ -15,7 +15,7 @@ import javafx.scene.control.TableView;
 public class Table {
 
 	public static <T> void load(TableView<T> table, ArrayList<T> allItems) {
-
+		
 		ObservableList<T> _allItems = FXCollections.observableArrayList(allItems);
 		table.setItems(_allItems);
 

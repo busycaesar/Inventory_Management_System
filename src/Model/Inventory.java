@@ -1,16 +1,23 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
 
-public class Inventory {
+public class Inventory implements Serializable {
 
-	private ArrayList<Product> allProducts;
-	private ArrayList<Part>    allParts;
+	private static final long  				serialVersionUID = 1L;
+
+	private 			 ArrayList<Product> allProducts;
+	private 			 ArrayList<Part>    allParts;
 	
-	public Inventory(ArrayList<Product> _allProducts, ArrayList<Part> _allParts) {
-		this.allProducts = _allProducts;
-		this.allParts 	 = _allParts;
+	public Inventory() {
+		this.allParts 	 = new ArrayList<>();
+		this.allProducts = new ArrayList<>();
+	}
+	
+	public Inventory(ArrayList<Part> allParts, ArrayList<Product> allProducts) {
+		this.allParts 	 = allParts;
+		this.allProducts = allProducts;
 	}
 	
 	// Add a new part to the inventory.

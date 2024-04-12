@@ -1,21 +1,27 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class Product {
+public class Product implements Serializable {
 	
-	private int    			id, 
-		   		   			// The number of product in stock.
-		   		   			stock, 
-		   		   			// The minimum number of products required.
-		   		   			minRequire, 
-		   		   			// The maximum number of products that can be stored.
-		   		   			maxCapacity;
-	private String 			name;
-	private double 			price;
+	private static final long 			 serialVersionUID = 1L;
+
+	private 			 int    		 id, 
+		   		   						 // The number of product in stock.
+		   		   						 stock, 
+		   		   						 // The minimum number of products required.
+		   		   						 minRequire, 
+		   		   				 		 // The maximum number of products that can be stored.
+		   		   						 maxCapacity;
+	private 			 String 		 name;
+	private 			 double 		 price;
 	// All the parts associated with the product.
-	private ArrayList<Part> associatedParts;
+	private 			 ArrayList<Part> associatedParts;
+	
+	public Product() {
+	}
 	
 	// Create a new product object.
 	public Product(int _id, int _stock, int _minRequire, int _maxCapacity, String _name, double _price, ArrayList<Part> _associatedParts) {

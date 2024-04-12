@@ -1,4 +1,4 @@
-package application;
+package View;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;

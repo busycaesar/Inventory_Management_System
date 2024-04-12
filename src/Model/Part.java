@@ -1,17 +1,24 @@
 package Model;
 
-public abstract class Part {
+import java.io.Serializable;
 
-	private int     id, 
-		   		    // The number of parts in stock.
-		   		    stock, 
-		   		    // The minimum number of parts required.
-		   		    minRequire, 
-		   		    // The maximum number of parts that can be stored.
-		   		    maxCapacity;
-	private String  name;
-	private double 	price;
-	private boolean isAssociated;
+public abstract class Part implements Serializable {
+
+	private static final long    serialVersionUID = 1L;
+
+	private 			 int     id, 
+		   		    			 // The number of parts in stock.
+		   		    			 stock, 
+		   		    			 // The minimum number of parts required.
+		   		    			 minRequire, 
+		   		    			 // The maximum number of parts that can be stored.
+		   		    			 maxCapacity;
+	private 			 String  name;
+	private 			 double  price;
+	private 			 boolean isAssociated;
+	
+	public Part() {
+	}
 	
 	// Create a new part object.
 	public Part(int _id, int _stock, int _minRequire, int _maxCapacity, String _name, double _price) {

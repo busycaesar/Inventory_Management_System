@@ -1,8 +1,16 @@
 package Model;
 
-public class InHousePart extends Part {
+import java.io.Serializable;
 
-	private int machineId;
+public class InHousePart extends Part implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+	
+	private 			 int  machineId;
+
+	public InHousePart() {
+		super();
+	}
 	
 	// Create a new part object.
 	public InHousePart(int _id, int _stock, int _minRequire, int _maxCapacity, String _name, double _price, int _machineId) {

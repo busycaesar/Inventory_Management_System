@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="root" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainMenuController">
+<BorderPane fx:id="root" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MainMenuController">
    <center>
 <BorderPane prefHeight="650.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
    <top>
@@ -71,12 +71,32 @@
                </font>
             </Button>
             <TextField fx:id="searchProduct" layoutX="772.0" layoutY="80.0" promptText="Search by Id or Name" />
-                  <Text fx:id="warning" layoutX="250.0" layoutY="501.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="500.13671875">
+                  <Text fx:id="warning" layoutX="385.0" layoutY="500.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="450.13671875">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Text>
                   <Button layoutX="879.0" layoutY="495.0" mnemonicParsing="false" onAction="#handleExitButtonClick" text="Exit">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Button layoutX="81.0" layoutY="480.0" mnemonicParsing="false" onAction="#handleSaveFileButtonClicked" text="Save to file">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Button layoutX="81.0" layoutY="520.0" mnemonicParsing="false" onAction="#handleLoadDataFileButtonClicked" text="Load data from file">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Button layoutX="234.0" layoutY="480.0" mnemonicParsing="false" onAction="#handleSaveDBButtonClicked" text="Save to database">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Button layoutX="234.0" layoutY="520.0" mnemonicParsing="false" onAction="#handleLoadDataDBButtonClicked" text="Load data from DB">
                      <font>
                         <Font size="14.0" />
                      </font>

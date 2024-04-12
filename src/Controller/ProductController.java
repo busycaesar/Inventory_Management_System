@@ -34,8 +34,9 @@ public class ProductController {
 	}
 	
 	public ArrayList<PartController> getAssociatedParts(){
-		ArrayList<PartController> associatedParts = new ArrayList<>();
-		ArrayList<Part> currentAssociatedParts = this.getProduct().getAssociatedParts();
+		
+		ArrayList<PartController> associatedParts 		 = new ArrayList<>();
+		ArrayList<Part> 		  currentAssociatedParts = this.getProduct().getAssociatedParts();
 		
 		for(int i = 0; i < currentAssociatedParts.size(); i++) {
 			PartController part = new PartController(currentAssociatedParts.get(i));
@@ -43,6 +44,7 @@ public class ProductController {
 		}
 		
 		return associatedParts;
+		
 	}
 	
 	public int getMaxAllowed() {
