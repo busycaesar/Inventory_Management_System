@@ -2,7 +2,7 @@
 
 ## Description
 
-This is an Inventory Management System. It can hold the list of Products, its total units available, unit cost, minimum units require as well as maximum units require in the inventory and their associated parts with the same properties as product. Parts can be independent of product.
+This is an Inventory Management System. It holds the list of Parts, Products and the associated parts with each product. Users can enter the data using forms for both parts and products. Further, users have the option to store the data into the database or a file(.dat). Lastly, the user can load the data from the database or a file(.dat).
 
 ## Tech Stack
 
