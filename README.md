@@ -6,7 +6,7 @@ This is an Inventory Management System. It can hold the list of Products, its to
 
 ## Tech Stack
 
-<img src="https://skillicons.dev/icons?i=java,eclipse" />
+<img src="https://skillicons.dev/icons?i=java,sqlite,eclipse" />
 
 ## How it looks
 
@@ -26,7 +26,3 @@ This is an Inventory Management System. It can hold the list of Products, its to
 - Add/Remove an associated part with the product.
 - Proper error messages
 - Confirmation dialogue boxes before deleting any item.
-
-## How to run the project
-
-Clone the product and run the main file using any code editor.
