@@ -1,10 +1,13 @@
 # How it looks?
 
 ## Main Menu
-![MainMenu](https://github.com/busycaesar/Inventory_Management_System/assets/97539345/014f4292-027a-4d5b-ad3c-9e3016cbdc60)
+
+![Screenshot 2024-04-20 123533](https://github.com/busycaesar/Inventory_Management_System/assets/97539345/2ab25902-f848-460a-8be8-e5fea4ec0d7a)
 
 ## Add Part Form
-![image](https://github.com/busycaesar/Inventory_Management_System/assets/97539345/c3eba679-3641-47e0-8bc9-877e1a28b82f)
+
+![Screenshot 2024-04-20 123334](https://github.com/busycaesar/Inventory_Management_System/assets/97539345/2f933739-6ce2-4015-9b9d-1386e9149d09)
 
 ## Add Product Form
-![image](https://github.com/busycaesar/Inventory_Management_System/assets/97539345/43e51dc8-f725-4442-8c2e-c38ed1d7b8c0)
+
+![Screenshot 2024-04-20 123548](https://github.com/busycaesar/Inventory_Management_System/assets/97539345/caaa9cd6-b92a-4a01-beda-800bcdda08d8)
